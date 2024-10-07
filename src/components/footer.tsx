@@ -33,7 +33,7 @@ const Footer = () => {
     >
       <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
         <div>
-          <h3 className="text-xl font-bold mb-4">StockPro</h3>
+          <h3 className="text-xl font-bold mb-4">US Stock Hub</h3>
           <p className="text-sm">
             {isArabic
               ? "مصدرك الموثوق للحصول على رؤى وتحليلات سوق الأسهم."
@@ -64,13 +64,13 @@ const Footer = () => {
           <p className="text-sm mb-2">
             {isArabic
               ? "info@stockpro.com : البريد الإلكتروني "
-              : "Email: info@stockpro.com"}
+              : "Email: info@usstockhub.com"}
           </p>
-          <p className="text-sm mb-2">
+          {/*          <p className="text-sm mb-2">
             {isArabic
               ? "الهاتف: +1 (123) 456-7890"
               : "Phone: +1 (123) 456-7890"}
-          </p>
+          </p> */}
         </div>
         <div>
           <h4 className="text-lg font-semibold mb-4">

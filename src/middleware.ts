@@ -27,7 +27,6 @@ export default withAuth(
   async function middleware(request: NextRequest) {
     try {
       const pathname = request.nextUrl.pathname;
-      console.log("Pathname:", pathname);
 
       // Extract the language from the URL (assumes the language comes first in the path)
       const langPrefix = pathname.split("/")[1];
@@ -50,7 +49,6 @@ export default withAuth(
       const isAdminRoute = pathname.startsWith(Route.Admin);
       const userRole = isAuth?.role;
       if (isAuthRoute && isAuth) {
-        console.log(`Redirecting authenticated user from ${pathname} to home`);
         return NextResponse.redirect(
           new URL("/" + langPrefix + Route.Home, request.url)
         );
@@ -65,7 +63,11 @@ export default withAuth(
         const loginUrl = new URL("/" + langPrefix + Route.SignIn, request.url);
         loginUrl.searchParams.set(
           "message",
-          "Please log in to access this page"
+          `${
+            langPrefix === "ar"
+              ? "يرجى تسجيل الدخول للوصول إلى هذه الصفحة."
+              : "Please log in to access this page"
+          }`
         );
         return NextResponse.redirect(loginUrl);
       }
@@ -79,7 +81,6 @@ export default withAuth(
         pathname.startsWith("/" + langPrefix + "/ask-about-stock/") &&
         isAuth
       ) {
-        console.log("Tracking access");
         const res = await fetch(
           `${process.env.NEXTAUTH_URL}/api/operations/trackAccess`,
           {

@@ -97,8 +97,6 @@ export async function PUT(req: NextRequest) {
   }
   if (session) {
     if (session.user) {
-      console.log(session.user);
-
       if (session.user.email) {
         if (session.user.email !== "rashed111222@yahoo.com")
           return new NextResponse("Unauthorized", { status: 401 });
@@ -154,8 +152,6 @@ export async function DELETE(req: NextRequest) {
   }
   if (session) {
     if (session.user) {
-      console.log(session.user);
-
       if (session.user.email) {
         if (session.user.email !== "rashed111222@yahoo.com")
           return new NextResponse("Unauthorized", { status: 401 });

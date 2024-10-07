@@ -63,7 +63,7 @@ export default function NewsComp() {
             <span className="bg-gray-100 px-2 py-1 rounded">
               {formatDistanceToNow(
                 DateTime.fromISO(item.published_date, { zone: "utc" })
-                  .plus({ hours: 7 })
+                  .plus({ hours: 10 })
                   .setZone("America/New_York")
                   .toJSDate(),
                 { addSuffix: true }

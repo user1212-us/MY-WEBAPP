@@ -17,13 +17,11 @@ export async function generateMetadata({
 }
 
 export default function StockDetailsPageLayout({
-  params,
   children,
   recomendations,
   latestArticles,
   priceTarget,
 }: {
-  params: { stockSymbol: string };
   children: React.ReactNode;
   recomendations: React.ReactNode;
   latestArticles: React.ReactNode;
@@ -33,8 +31,6 @@ export default function StockDetailsPageLayout({
   //const { symbol } = router.query;
 
   // Mock data (replace with actual API call in a real application)
-
-  console.log(params.stockSymbol);
 
   return (
     <>

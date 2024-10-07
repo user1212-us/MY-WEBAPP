@@ -8,9 +8,7 @@ const pool = new Pool({
   port: parseInt(process.env.DB_PORT as string, 10), // Your PostgreSQL port
 });
 
-pool.on("connect", () => {
-  console.log("Connected to the PostgreSQL database");
-});
+pool.on("connect", () => {});
 
 pool.on("error", (err) => {
   console.error("Unexpected error on idle client", err);

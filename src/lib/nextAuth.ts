@@ -99,7 +99,6 @@ export const authOptions: NextAuthOptions = {
       return true;
     },
     async jwt({ token, user }) {
-      console.log(user);
       if (user) {
         token.id = user.id;
         token.role = user.role as string;
