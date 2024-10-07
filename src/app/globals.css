@@ -5,6 +5,7 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --border: #e5e7eb; /* Add this line for border color */
 }
 
 @media (prefers-color-scheme: dark) {
@@ -23,5 +24,14 @@ body {
 @layer utilities {
   .text-balance {
     text-wrap: balance;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-[color:var(--border)];
+  }
+  body {
+    @apply bg-[color:var(--background)] text-[color:var(--foreground)];
   }
 }
