@@ -60,7 +60,7 @@ export default function NewsComp() {
           </p>
           <div className="flex justify-between items-end text-xs text-gray-500">
             <span className="bg-gray-100 px-2 py-1 rounded">
-              {formatDistanceToNow(addHours(new Date(item.publishedDate), 10), {
+              {formatDistanceToNow(addHours(new Date(item.publishedDate), 13), {
                 addSuffix: true,
               })}
             </span>
