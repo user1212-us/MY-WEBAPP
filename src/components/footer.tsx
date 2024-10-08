@@ -74,7 +74,7 @@ const Footer = () => {
         </div>
         <div>
           <h4 className="text-lg font-semibold mb-4">
-            {isArabic ? "تابعنا" : "Follow Us"}
+            {isArabic ? "تابعنا" : "Follow US"}
           </h4>
           <div className={`flex space-x-4 ${isArabic ? "justify-end " : ""}`}>
             <a
