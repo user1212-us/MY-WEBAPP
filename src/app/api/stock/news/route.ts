@@ -21,7 +21,7 @@ export async function POST(req: NextRequest) {
 
     // Make the GET request to the external API
     const apiResponse = await fetch(
-      `https://financialmodelingprep.com/api/v3/stock_news?tickers=${symbol}&limit=3&apikey=${process.env.MY_API_KEY}`,
+      `https://financialmodelingprep.com/api/v3/stock_news?tickers=${symbol}&limit=2&apikey=${process.env.MY_API_KEY}`,
       { cache: "no-store" }
     );
 

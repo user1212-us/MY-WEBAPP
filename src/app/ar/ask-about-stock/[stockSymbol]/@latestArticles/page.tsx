@@ -1,4 +1,5 @@
 import { CardContent } from "@/components/ui/card";
+import { translateText } from "@/lib/translate";
 
 interface Article {
   title: string;
@@ -30,7 +31,7 @@ export default async function LatestArticles({
         return (
           <CardContent>
             <h3 className="text-lg font-semibold text-[#1877F2] my-4 text-center ">
-              حتى الآن لا يوجد مقالات رسمية لهذا السهم
+              حتى الآن لا يوجد أخبار رسمية لهذا السهم
             </h3>
           </CardContent>
         );
@@ -55,30 +56,38 @@ export default async function LatestArticles({
     return (
       <CardContent>
         <h3 className="text-lg font-semibold text-[#1877F2] my-4 text-center">
-          حتى الآن لا يوجد مقالات رسمية لهذا السهم
+          حتى الآن لا يوجد أخبار رسمية لهذا السهم
         </h3>
       </CardContent>
     );
   }
 
+  const translatedArticles = await Promise.all(
+    latestArticles.map(async (article) => ({
+      ...article,
+      translatedTitle: await translateText(article.title),
+      translatedText: await translateText(article.text),
+    }))
+  );
+
   return (
     <CardContent>
-      <div className="space-y-6">
-        {latestArticles.map((article: Article, index) => (
+      <div className="space-y-6 text-right" dir="rtl">
+        {translatedArticles.map((article, index) => (
           <div
             key={index}
             className="border-b border-gray-200 pb-4 last:border-b-0 last:pb-0 hover:bg-gray-50 p-4 rounded transition-colors duration-300"
           >
             <h3 className="text-lg font-semibold text-[#1877F2] mb-2">
-              {article.title}
+              {article.translatedTitle}
             </h3>
-            <p className="text-gray-600 mb-2">{article.text}</p>
-            <div className="flex justify-between items-end text-xs text-gray-500">
+            <p className="text-gray-600 mb-2">{article.translatedText}</p>
+            <div className="flex flex-row-reverse justify-between items-end text-xs text-gray-500">
               <span className="bg-gray-100 px-2 py-1 rounded">
-                publish date: {article.publishedDate}
+                تاريخ النشر: {article.publishedDate}
               </span>
               <span className="italic">
-                Provider: {article.site.split(".")[0]}
+                المصدر: {article.site.split(".")[0]}
               </span>
             </div>
           </div>

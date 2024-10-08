@@ -63,8 +63,8 @@ const Footer = () => {
           </h4>
           <p className="text-sm mb-2">
             {isArabic
-              ? "usstockhub@gmail.com : البريد الإلكتروني "
-              : "Email: usstockhub@gmail.com"}
+              ? "info@usstockhub.com : البريد الإلكتروني "
+              : "Email: info@usstockhub.com"}
           </p>
           {/*          <p className="text-sm mb-2">
             {isArabic

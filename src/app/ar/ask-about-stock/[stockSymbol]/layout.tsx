@@ -62,7 +62,7 @@ export default function StockDetailsPageLayout({
         <Card className="hover:shadow-lg transition-shadow duration-300">
           <CardHeader>
             <CardTitle className="text-[#003E77] flex items-center text-2xl">
-              <NewspaperIcon className="w-6 h-6 ml-2" /> أحدث المقالات
+              <NewspaperIcon className="w-6 h-6 ml-2" /> أحدث الأخبار
             </CardTitle>
           </CardHeader>
           {latestArticles}
