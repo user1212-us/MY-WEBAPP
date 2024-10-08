@@ -262,7 +262,7 @@ export default function RegisterPage() {
               {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
               <Button
                 type="submit"
-                className="w-full bg-[#1877F2] hover:bg-[#166FE5]"
+                className="w-full bg-[#1877F2] hover:bg-[#166FE5] text-white font-bold"
               >
                 Register
               </Button>

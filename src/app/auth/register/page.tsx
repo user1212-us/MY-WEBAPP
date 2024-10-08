@@ -5,39 +5,15 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useRouter } from "next/navigation";
-import EulaModal from "@/components/eulaComp";
 
 const countryCodes = [
-  { name: "اختر رمز البلد", code: "" },
-  { name: "الأردن", code: "+962" },
-  { name: "الإمارات العربية المتحدة", code: "+971" },
-  { name: "البحرين", code: "+973" },
-  { name: "السعودية", code: "+966" },
-  { name: "العراق", code: "+964" },
-  { name: "الكويت", code: "+965" },
-  { name: "لبنان", code: "+961" },
-  { name: "مصر", code: "+20" },
-  { name: "عمان", code: "+968" },
-  { name: "قطر", code: "+974" },
+  { name: "Select Country Code", code: "" },
   { name: "United States", code: "+1" },
-  { name: "United Kingdom", code: "+44" },
   { name: "Canada", code: "+1" },
+  { name: "United Kingdom", code: "+44" },
   { name: "Australia", code: "+61" },
-  { name: "Germany", code: "+49" },
-  { name: "France", code: "+33" },
-  { name: "India", code: "+91" },
+  // Add more countries here
 ];
-
-const errTranslate: { [key: string]: string } = {
-  "User already exists": "المستخدم موجود بالفعل",
-  "Registration successful. Verification code sent to your email.":
-    "تم التسجيل بنجاح. تم إرسال رمز التحقق إلى بريدك الإلكتروني.",
-  "Internal server error": "خطأ داخلي في الخادم",
-  "Password must be at least 8 characters long.":
-    "يجب أن تكون كلمة المرور مكونة من 8 أحرف على الأقل.",
-  "Passwords do not match": "كلمات المرور غير متطابقة",
-  "An error occurred. Please try again.": "حدث خطأ ما. يرجى المحاولة مرة أخرى.",
-};
 
 export default function RegisterPage() {
   const [formData, setFormData] = useState({
@@ -51,7 +27,6 @@ export default function RegisterPage() {
   });
   const [success, setSuccess] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
-  const [agreed, setAgreed] = useState(false);
   const router = useRouter();
 
   const handleChange = (
@@ -69,13 +44,13 @@ export default function RegisterPage() {
 
     // Validate password length
     if (formData.password.length < 8) {
-      setError("يجب أن تكون كلمة المرور مكونة من 8 أحرف على الأقل.");
+      setError("Password must be at least 8 characters long.");
       return;
     }
 
     // Check if password and confirmPassword match
     if (formData.password !== formData.confirmPassword) {
-      setError("كلمات المرور غير متطابقة");
+      setError("Passwords do not match");
       return;
     }
 
@@ -98,27 +73,27 @@ export default function RegisterPage() {
       if (res.ok) {
         // Redirect to the verification page and pass the email as a query parameter
         setSuccess(true);
-        router.push(`/ar/auth/register/verification?email=${formData.email}`);
+        router.push(`/auth/register/verification?email=${formData.email}`);
       } else {
         const data = await res.json();
-        setError(data.message || "حدث خطأ ما.");
+        setError(data.message || "Registration failed");
       }
     } catch (error) {
       console.log(error);
-      setError("حدث خطأ ما. يرجى المحاولة مرة أخرى.");
+      setError("An error occurred. Please try again.");
     }
   };
 
   return (
     <>
-      <Card className="max-w-md mx-auto" dir="rtl">
+      <Card className="max-w-md mx-auto">
         <CardHeader>
-          <CardTitle className="text-[#003E77]">إنشاء حساب جديد</CardTitle>
+          <CardTitle className="text-[#003E77]">Register</CardTitle>
         </CardHeader>
         <CardContent>
           {success ? (
             <p className="text-center text-green-500 mt-4">
-              تم إنشاء حساب جديد بنجاح، جارٍ إعادة التوجيه إلى صفحة التحقق
+              Registered Successfully redirecting to verification page
             </p>
           ) : (
             <form onSubmit={handleSubmit}>
@@ -128,13 +103,13 @@ export default function RegisterPage() {
                     className="block text-sm font-medium text-gray-700 mb-2"
                     htmlFor="firstName"
                   >
-                    الاسم الأول
+                    First Name
                   </label>
                   <Input
                     id="firstName"
                     name="firstName"
                     type="text"
-                    placeholder="أدخل اسمك الأول"
+                    placeholder="Enter your first name"
                     required
                     value={formData.firstName}
                     onChange={handleChange}
@@ -145,13 +120,13 @@ export default function RegisterPage() {
                     className="block text-sm font-medium text-gray-700 mb-2"
                     htmlFor="lastName"
                   >
-                    الاسم الأخير
+                    Last Name
                   </label>
                   <Input
                     id="lastName"
                     name="lastName"
                     type="text"
-                    placeholder="أدخل اسمك الأخير"
+                    placeholder="Enter your last name"
                     required
                     value={formData.lastName}
                     onChange={handleChange}
@@ -163,13 +138,13 @@ export default function RegisterPage() {
                   className="block text-sm font-medium text-gray-700 mb-2"
                   htmlFor="email"
                 >
-                  البريد الإلكتروني
+                  Email
                 </label>
                 <Input
                   id="email"
                   name="email"
                   type="email"
-                  placeholder="أدخل بريدك الإلكتروني"
+                  placeholder="Enter your email"
                   required
                   value={formData.email}
                   onChange={handleChange}
@@ -181,13 +156,12 @@ export default function RegisterPage() {
                   className="block text-sm font-medium text-gray-700 mb-2"
                   htmlFor="phone"
                 >
-                  رقم الهاتف
-                  <span className="text-xs">(اختياري)</span>
+                  Phone Number <span className="text-xs">(optional)</span>
                 </label>
                 <div className="flex">
                   {/* Country code dropdown */}
                   <select
-                    className="ml-2 p-2 border rounded text-sm"
+                    className="mr-2 p-2 border rounded text-sm"
                     value={formData.countryCode}
                     onChange={(e) =>
                       setFormData({
@@ -195,11 +169,11 @@ export default function RegisterPage() {
                         countryCode: e.target.value,
                       })
                     }
-                    style={{ direction: "ltr" }}
                   >
                     {countryCodes.map((code) => (
                       <option key={code.code} value={code.code}>
-                        {code.name} {code.code}
+                        {code.name}{" "}
+                        {code.code.length != 0 ? `(${code.code})` : ""}
                       </option>
                     ))}
                   </select>
@@ -210,7 +184,7 @@ export default function RegisterPage() {
                     name="phone"
                     type="tel"
                     className="flex-grow"
-                    placeholder="أدخل رقم هاتفك"
+                    placeholder="Enter your phone number"
                     value={formData.phoneNumber}
                     onChange={(e) =>
                       setFormData({
@@ -226,13 +200,13 @@ export default function RegisterPage() {
                   className="block text-sm font-medium text-gray-700 mb-2"
                   htmlFor="password"
                 >
-                  كلمة المرور
+                  Password
                 </label>
                 <Input
                   id="password"
                   name="password"
                   type="password"
-                  placeholder="أدخل كلمة المرور"
+                  placeholder="Enter your password"
                   required
                   value={formData.password}
                   onChange={handleChange}
@@ -243,53 +217,35 @@ export default function RegisterPage() {
                   className="block text-sm font-medium text-gray-700 mb-2"
                   htmlFor="confirmPassword"
                 >
-                  تأكيد كلمة المرور
+                  Confirm Password
                 </label>
                 <Input
                   id="confirmPassword"
                   name="confirmPassword"
                   type="password"
-                  placeholder="أكد كلمة المرور الخاصة بك"
+                  placeholder="Confirm your password"
                   required
                   value={formData.confirmPassword}
                   onChange={handleChange}
                 />
               </div>
-              <div className="flex items-center mb-4">
-                <input
-                  type="checkbox"
-                  id="agree"
-                  checked={agreed}
-                  onChange={(e) => setAgreed(e.target.checked)}
-                  className="ml-2"
-                  required
-                />
-                <label htmlFor="agree" className="flex text-sm">
-                  أوافق على
-                  <EulaModal lang="ar" />
-                </label>
-              </div>
-              {error && (
-                <p className="text-red-500 text-sm mb-4">
-                  {error in errTranslate ? errTranslate[error] : error}
-                </p>
-              )}
+              {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
               <Button
                 type="submit"
-                className="w-full bg-[#1877F2] hover:bg-[#166FE5] text-white font-bold"
+                className="w-full bg-[#1877F2] hover:bg-[#166FE5]"
               >
-                إنشاء حساب جديد
+                Register
               </Button>
             </form>
           )}
 
           <p className="mt-4 text-center text-sm text-gray-500">
-            لديك حساب بالفعل؟{" "}
+            Already have an account?{" "}
             <Link
-              href="/ar/auth/login"
+              href="/auth/login"
               className="text-[#1877F2] hover:text-[#166FE5]"
             >
-              تسجيل الدخول من هنا
+              Login here
             </Link>
           </p>
         </CardContent>

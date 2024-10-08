@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { FaGoogle } from "react-icons/fa";
+import { FaGoogle, FaFacebook } from "react-icons/fa";
 
 export default function LoginPage() {
   const [email, setEmail] = useState<string>("");
@@ -52,6 +52,9 @@ export default function LoginPage() {
 
       window.location.reload(); // Forces a full page reload
     }
+  };
+  const handleSocialLogin = (provider: string) => {
+    signIn(provider, { callbackUrl: "http://localhost:3000" });
   };
 
   return (
@@ -135,6 +138,12 @@ export default function LoginPage() {
                   onClick={() => signIn("google")}
                 >
                   <FaGoogle className="mr-2" /> Sign in with Google
+                </Button>
+                <Button
+                  className="flex items-center justify-center w-full bg-blue-500 hover:bg-blue-400 text-white font-bold py-2"
+                  onClick={() => handleSocialLogin("facebook")}
+                >
+                  <FaFacebook className="mr-2" /> Sign in with Facebook
                 </Button>
               </div>
               <p className="mt-4 text-center text-xs text-gray-500">

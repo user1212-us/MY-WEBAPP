@@ -10,7 +10,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   return {
     title: `معلومات السهم: ${params.stockSymbol} | بيانات وتحليلات شاملة`,
-    description: `تحليل مفصل وبيانات لـ ${params.stockSymbol}. ابقَ على اطلاع بأسعار الأسهم الفورية، والأخبار، والأداء التاريخي.`,
+    description: `تحليل مفصل وبيانات لـ ${params.stockSymbol.toUpperCase}. ابقَ على اطلاع بأسعار الأسهم الفورية، والأخبار، والأداء التاريخي.`,
     keywords: `${params.stockSymbol}, تحليل الأسهم, بيانات سوق الأسهم, أسعار الأسهم الأمريكية, أخبار الأسهم`,
   };
 }
