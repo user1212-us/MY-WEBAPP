@@ -14,9 +14,18 @@ export const sendEmail = async (to: string, subject: string, text: string) => {
   });
 
   // Send the email
+  text =
+    "Hello" +
+    "\n" +
+    text +
+    "\n" +
+    `If you did not request this code, feel free to ignore this email.
+
+    Best regards,  
+    US Stock Hub Support Team`;
   try {
     await transport.sendMail({
-      from: process.env.EMAIL_USER, // Use a consistent 'from' address
+      from: process.env.EMAIL_USER_SENDER, // Use a consistent 'from' address
       to,
       subject,
       text,

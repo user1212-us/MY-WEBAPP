@@ -32,4 +32,5 @@ export const resetSchema = z.object({
 
 export const resendForgotSchema = z.object({
   email: z.string().email(),
+  lang: z.string().max(2),
 });

@@ -63,8 +63,8 @@ const Footer = () => {
           </h4>
           <p className="text-sm mb-2">
             {isArabic
-              ? "info@stockpro.com : البريد الإلكتروني "
-              : "Email: info@usstockhub.com"}
+              ? "usstockhub@gmail.com : البريد الإلكتروني "
+              : "Email: usstockhub@gmail.com"}
           </p>
           {/*          <p className="text-sm mb-2">
             {isArabic
@@ -104,8 +104,8 @@ const Footer = () => {
       <div className="mt-8 border-t border-[#D9E8FB] pt-8 text-sm text-center">
         <p>
           {isArabic
-            ? `© ${new Date().getFullYear()} StockPro. جميع الحقوق محفوظة.`
-            : `© ${new Date().getFullYear()} StockPro. All rights reserved.`}
+            ? `© ${new Date().getFullYear()} US Stock Hub. جميع الحقوق محفوظة.`
+            : `© ${new Date().getFullYear()} US Stock Hub. All rights reserved.`}
         </p>
       </div>
     </div>

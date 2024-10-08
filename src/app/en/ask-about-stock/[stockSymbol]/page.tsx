@@ -40,7 +40,7 @@ export default async function AskAboutStockPage({
     <>
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 bg-white p-6 rounded-lg shadow-md">
         <h1 className="text-3xl md:text-4xl font-bold text-[#003E77] mb-4 md:mb-0">
-          {stockData.name} Stock Details ({params.stockSymbol.toUpperCase})
+          {stockData.name} Stock Details ({params.stockSymbol})
         </h1>
         <div className="flex flex-col md:flex-row items-start md:items-center">
           <span className="text-2xl md:text-3xl font-bold mr-2 text-[#1877F2] mb-2 md:mb-0">

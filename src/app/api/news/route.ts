@@ -1,5 +1,4 @@
 import { NextResponse } from "next/server";
-import pool from "@/lib/db";
 
 // Define a type for the news article
 interface NewsArticle {
@@ -16,13 +15,13 @@ export async function GET() {
     // Fetch new articles from the API
     const newArticles = await fetchNewsFromAPI();
 
-    // Store new articles in the database
+    /*  // Store new articles in the database
     await storeNewsInDatabase(newArticles);
 
     // Retrieve the most recent 70 articles from the database
-    const recentNews = await getRecentNewsFromDatabase();
+    const recentNews = await getRecentNewsFromDatabase(); */
 
-    return NextResponse.json(recentNews, { status: 200 });
+    return NextResponse.json(newArticles, { status: 200 });
   } catch (error) {
     console.error("Error in GET news:", error);
     return NextResponse.json(
@@ -43,7 +42,7 @@ async function fetchNewsFromAPI(): Promise<NewsArticle[]> {
 
   return await apiResponse.json();
 }
-
+/* 
 async function storeNewsInDatabase(news: NewsArticle[]) {
   const client = await pool.connect();
   try {
@@ -81,3 +80,4 @@ async function getRecentNewsFromDatabase() {
     client.release();
   }
 }
+ */

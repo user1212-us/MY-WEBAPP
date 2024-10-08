@@ -35,7 +35,7 @@ function ResetPasswordForm() {
 
       if (res.ok) {
         setSuccess(true);
-        setTimeout(() => router.push("/login"), 3000);
+        setTimeout(() => router.push("/en/auth/login"), 3000);
       } else {
         const data = await res.json();
         setError(data.message || "Failed to reset password");

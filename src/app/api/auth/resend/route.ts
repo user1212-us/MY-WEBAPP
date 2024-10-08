@@ -2,12 +2,10 @@ import { v4 as uuidv4 } from "uuid";
 import { NextRequest, NextResponse } from "next/server";
 import { sendEmail } from "@/lib/emailService";
 import pool from "@/lib/db";
-import { resendForgotSchema } from "@/types/schemas";
 
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    resendForgotSchema.parse(body);
     const { email } = body;
     const client = await pool.connect();
     // Check if the email exists in the pending_users table
@@ -38,7 +36,9 @@ export async function POST(req: NextRequest) {
     await sendEmail(
       email,
       "Your Resent Verification Code",
-      `Your verification code is: ${verificationCode}`
+      `It seems you requested a new verification code. Please use the code below to verify your account:
+
+      Resent Verification Code: ${verificationCode}`
     );
 
     return NextResponse.json(

@@ -8,7 +8,7 @@ export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
     resendForgotSchema.parse(body);
-    const { email } = body;
+    const { email, lang } = body;
     const client = await pool.connect();
     // Check if the email exists in the users table
     const result = await client.query(`SELECT id FROM users WHERE email = $1`, [
@@ -28,11 +28,13 @@ export async function POST(req: NextRequest) {
     );
 
     // Send password reset email
-    const resetUrl = `${process.env.NEXTAUTH_URL}/auth/forgot-password/reset-password?token=${token}`;
+    const resetUrl = `${process.env.NEXTAUTH_URL}/${lang}/auth/forgot-password/reset-password?token=${token}`;
     await sendEmail(
       email,
       "Password Reset Request",
-      `You requested a password reset. Click the link to reset your password: ${resetUrl}`
+      `We received a request to reset your password. If you made this request, please click the link below to reset your password:
+
+      [Reset Password](${resetUrl})`
     );
 
     return NextResponse.json(

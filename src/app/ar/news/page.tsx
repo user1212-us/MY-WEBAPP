@@ -1,7 +1,7 @@
 import React from "react";
 import { Suspense } from "react";
-import NewsComp from "@/components/newsComp";
 import { Metadata } from "next";
+import NewsCompArabic from "@/components/newsCompAr";
 
 export const metadata: Metadata = {
   title: "أخبار سوق الأسهم الأمريكية | US Stock Hub",
@@ -27,7 +27,7 @@ const NewsPage = () => {
           </div>
         }
       >
-        <NewsComp />
+        <NewsCompArabic />
       </Suspense>
     </div>
   );

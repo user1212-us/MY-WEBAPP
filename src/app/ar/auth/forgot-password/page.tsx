@@ -26,7 +26,7 @@ export default function ForgotPasswordPage() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({ email, lang: "ar" }),
       });
 
       const data = await res.json();
