@@ -50,13 +50,13 @@ export default function NewsComp() {
           key={index}
           className="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden"
         >
-          <div className="flex justify-between items-start mb-3">
-            <h2 className="text-xl sm:text-base font-semibold text-[#1877F2] flex-grow pr-4">
-              {item.title}
-            </h2>
+          <div className="flex-column items-start mb-3">
             <span className="text-sm font-bold bg-[#D9E8FB] text-[#003E77] px-3 py-1 rounded-full whitespace-nowrap">
               {item.symbol}
             </span>
+            <h2 className="text-base sm:text-base font-semibold text-[#1877F2] flex-grow pr-4 mt-2">
+              {item.title}
+            </h2>
           </div>
           <div className="relative">
             <div
