@@ -1,6 +1,7 @@
 "use client";
 import useSWR from "swr";
 import { formatDistanceToNow, addHours } from "date-fns";
+import { useState } from "react";
 
 interface News {
   id: string;
@@ -20,6 +21,8 @@ const fetcher = async (url: string) => {
 };
 
 export default function NewsComp() {
+  const [expandedNews, setExpandedNews] = useState<string | null>(null);
+
   const {
     data: newsData,
     error,
@@ -45,20 +48,38 @@ export default function NewsComp() {
       {newsData.map((item, index) => (
         <div
           key={index}
-          className="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300"
+          className="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden"
         >
           <div className="flex justify-between items-start mb-3">
-            <h2 className="text-xl font-semibold text-[#1877F2] flex-grow pr-4">
+            <h2 className="text-xl sm:text-base font-semibold text-[#1877F2] flex-grow pr-4">
               {item.title}
             </h2>
             <span className="text-sm font-bold bg-[#D9E8FB] text-[#003E77] px-3 py-1 rounded-full whitespace-nowrap">
               {item.symbol}
             </span>
           </div>
-          <p className="text-gray-700 mb-4 text-sm leading-relaxed">
-            {item.text}
-          </p>
-          <div className="flex justify-between items-end text-xs text-gray-500">
+          <div className="relative">
+            <div
+              className={`text-gray-700 mb-4 text-sm leading-relaxed ${
+                expandedNews === item.id
+                  ? "max-h-48 overflow-y-auto pr-2"
+                  : "max-h-24 overflow-hidden"
+              }`}
+            >
+              <p className="break-words">{item.text}</p>
+            </div>
+            {item.text.length > 200 && (
+              <button
+                className="text-[#1877F2] font-semibold mt-2"
+                onClick={() =>
+                  setExpandedNews(expandedNews === item.id ? null : item.id)
+                }
+              >
+                {expandedNews === item.id ? "Read Less" : "Read More"}
+              </button>
+            )}
+          </div>
+          <div className="flex justify-between items-end text-xs text-gray-500 mt-4">
             <span className="bg-gray-100 px-2 py-1 rounded">
               {formatDistanceToNow(addHours(new Date(item.publishedDate), 7), {
                 addSuffix: true,
