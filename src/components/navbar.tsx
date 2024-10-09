@@ -20,6 +20,13 @@ import { useRouter } from "next/navigation";
 import LanguageSwitcher from "./langSwitch";
 import logo from "../assets/us-stock-hub-high-resolution-logo-transparent.png";
 import { useMediaQuery } from "@/hooks/useMediaQuery"; // Add this import
+import { Rubik } from "@next/font/google";
+
+// Import Rubik with Arabic subset
+const rubik = Rubik({
+  weight: ["400"], // Define font weights
+  subsets: ["arabic"], // Include Arabic subset
+});
 
 export default function Navbar() {
   const { status } = useSession(); // Access the session data
@@ -57,7 +64,11 @@ export default function Navbar() {
       ];
   const menuNav = isArabic ? navItems.slice().reverse() : navItems;
   return (
-    <div className={`container mx-auto px-4 ${isArabic ? "dir-rtl" : ""}`}>
+    <div
+      className={`container mx-auto px-4 ${
+        isArabic ? `dir-rtl ${rubik.className}` : ""
+      }`}
+    >
       <nav className={`flex justify-between items-center py-4`}>
         <div className="flex items-center ">
           <Image

@@ -3,6 +3,13 @@ import React from "react";
 import Link from "next/link";
 import { Facebook, Twitter, Instagram } from "lucide-react";
 import { usePathname } from "next/navigation";
+import { Rubik } from "@next/font/google";
+
+// Import Rubik with Arabic subset
+const rubik = Rubik({
+  weight: ["400"], // Define font weights
+  subsets: ["arabic"], // Include Arabic subset
+});
 
 const Footer = () => {
   const pathName = usePathname();
@@ -28,7 +35,7 @@ const Footer = () => {
   return (
     <div
       className={`container mx-auto px-4 ${
-        isArabic ? "dir-rtl text-right" : ""
+        isArabic ? `dir-rtl text-right ${rubik.className}` : ""
       }`}
     >
       <div className="grid grid-cols-1 md:grid-cols-4 gap-8">

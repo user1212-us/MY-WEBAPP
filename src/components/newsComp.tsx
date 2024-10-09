@@ -85,7 +85,7 @@ export default function NewsComp() {
                 addSuffix: true,
               })}
             </span>
-            <span className="italic">Provider: {item.site}</span>
+            <span className="italic">Provider: {item.site.split(".")[0]}</span>
           </div>
         </div>
       ))}
