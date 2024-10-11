@@ -28,7 +28,7 @@ export default function NewsComp() {
     error,
     isLoading,
   } = useSWR<News[]>("/api/news?limit=30", fetcher, {
-    refreshInterval: 600000, // Refresh every 10 minutes
+    refreshInterval: 60000, // Refresh every 1 minutes
   });
 
   if (isLoading)

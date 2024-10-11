@@ -2,13 +2,24 @@ import { NextResponse } from "next/server";
 import { translateText } from "@/lib/translate";
 
 interface NewsArticle {
-  title: string;
+  titleEn: string; // Original English title
+  titleAr: string; // Translated Arabic title
   symbol: string;
   publishedDate: string;
   site: string;
 }
 
-export const revalidate = 600; // Revalidate every 10 minutes
+interface NewsArticleEn {
+  title: string; // Original English title
+  symbol: string;
+  publishedDate: string;
+  site: string;
+}
+
+// Cache to store translated articles
+let translatedArticlesCache: NewsArticle[] = [];
+
+export const revalidate = 60; // Revalidate every 1 minute
 
 export async function GET() {
   try {
@@ -24,6 +35,7 @@ export async function GET() {
 }
 
 async function fetchAndTranslateNews(): Promise<NewsArticle[]> {
+  // Fetch new articles every minute
   const apiResponse = await fetch(
     `https://financialmodelingprep.com/api/v3/stock_news?limit=30&apikey=${process.env.MY_API_KEY}`
   );
@@ -34,11 +46,21 @@ async function fetchAndTranslateNews(): Promise<NewsArticle[]> {
 
   const newsData = await apiResponse.json();
 
-  const translatedNews = await Promise.all(
-    newsData.map(async (article: NewsArticle) => {
+  // Filter out articles that are already in the cache
+  const newArticles = newsData.filter(
+    (article: NewsArticleEn) =>
+      !translatedArticlesCache.some(
+        (cachedArticle) => cachedArticle.titleEn === article.title
+      )
+  );
+
+  // Translate only the new articles
+  const newTranslatedArticles = await Promise.all(
+    newArticles.map(async (article: NewsArticleEn) => {
       const translatedTitle = await translateText(article.title);
       return {
-        title: translatedTitle,
+        titleEn: article.title,
+        titleAr: translatedTitle,
         symbol: article.symbol,
         publishedDate: article.publishedDate,
         site: article.site,
@@ -46,5 +68,11 @@ async function fetchAndTranslateNews(): Promise<NewsArticle[]> {
     })
   );
 
-  return translatedNews;
+  // Update the cache with new translated articles
+  translatedArticlesCache = [
+    ...newTranslatedArticles,
+    ...translatedArticlesCache,
+  ].slice(0, 30);
+
+  return translatedArticlesCache;
 }

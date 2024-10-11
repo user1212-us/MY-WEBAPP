@@ -16,7 +16,10 @@ export default function Trending() {
   useEffect(() => {
     const fetchTrendingStocks = async () => {
       try {
-        const response = await fetch("/api/volume");
+        const response = await fetch(
+          "/api/volume",
+          { next: { revalidate: 3600 } } // Revalidate every 1 hours
+        );
         if (!response.ok) {
           throw new Error("Failed to fetch stock info");
         }

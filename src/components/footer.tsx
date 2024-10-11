@@ -3,7 +3,7 @@ import React from "react";
 import Link from "next/link";
 import { Facebook, Twitter, Instagram } from "lucide-react";
 import { usePathname } from "next/navigation";
-import { Rubik } from "@next/font/google";
+import { Rubik } from "next/font/google";
 
 // Import Rubik with Arabic subset
 const rubik = Rubik({
@@ -19,17 +19,19 @@ const Footer = () => {
   const quickLinks = isArabic
     ? [
         { href: "/ar", label: "الصفحة الرئيسية" },
+        { href: "/ar/ask-about-stock", label: "اسأل عن سهم" },
         { href: "/ar/news", label: "الأخبار" },
+        { href: "/ar/financial-events", label: "المفكرة المالية" },
         { href: "/ar/signals", label: "التوصيات" },
         { href: "/ar/history", label: "النتائج" },
-        { href: "/ar/ask-about-stock", label: "اسأل عن سهم" },
       ]
     : [
         { href: "/en", label: "Home" },
+        { href: "/en/ask-about-stock", label: "Ask About Stock" },
         { href: "/en/news", label: "News" },
+        { href: "/ar/financial-events", label: "المفكرة المالية" },
         { href: "/en/signals", label: "Signals" },
         { href: "/en/history", label: "History" },
-        { href: "/en/ask-about-stock", label: "Ask About Stock" },
       ];
 
   return (

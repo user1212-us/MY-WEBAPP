@@ -8,7 +8,7 @@ interface NewsArticle {
   publishedDate: string;
   site: string;
 }
-export const revalidate = 600; // Revalidate every 60 seconds (1 minute)
+export const revalidate = 60; // Revalidate every 60 seconds (1 minute)
 
 export async function GET() {
   try {

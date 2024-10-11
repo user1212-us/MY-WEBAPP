@@ -4,7 +4,7 @@ import { formatDistanceToNow, addHours } from "date-fns";
 import { ar } from "date-fns/locale";
 
 interface NewsAr {
-  title: string;
+  titleAr: string;
   symbol: string;
   publishedDate: string;
   site: string;
@@ -24,7 +24,7 @@ export default function NewsCompArabic() {
     error,
     isLoading,
   } = useSWR<NewsAr[]>("/api/newsar", fetcher, {
-    refreshInterval: 600000, // Refresh every 10 minutes
+    refreshInterval: 60000, // Refresh every 1 minutes
   });
 
   if (isLoading) {
@@ -55,7 +55,7 @@ export default function NewsCompArabic() {
               {item.symbol}
             </span>
             <h2 className="text-x font-semibold text-[#1877F2] flex-grow pl-4 mt-2">
-              {item.title}
+              {item.titleAr}
             </h2>
           </div>
           <div className="flex justify-between items-end text-xs text-gray-500">

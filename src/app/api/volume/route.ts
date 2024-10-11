@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 
-export const revalidate = 86400; // Revalidate every 24 hours (86400 seconds)
+export const revalidate = 3600; // Revalidate every 1 hours (86400 seconds)
 
 export async function GET() {
   try {

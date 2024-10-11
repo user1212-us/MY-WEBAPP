@@ -20,7 +20,7 @@ import { useRouter } from "next/navigation";
 import LanguageSwitcher from "./langSwitch";
 import logo from "../assets/us-stock-hub-high-resolution-logo-transparent.png";
 import { useMediaQuery } from "@/hooks/useMediaQuery"; // Add this import
-import { Rubik } from "@next/font/google";
+import { Rubik } from "next/font/google";
 
 // Import Rubik with Arabic subset
 const rubik = Rubik({
@@ -51,6 +51,7 @@ export default function Navbar() {
     ? [
         { href: "/ar/history", label: "النتائج" },
         { href: "/ar/signals", label: "التوصيات" },
+        { href: "/ar/financial-events", label: "المفكرة المالية" },
         { href: "/ar/news", label: "الأخبار" },
         { href: "/ar/ask-about-stock", label: "اسأل عن سهم" },
         { href: "/ar", label: "الصفحة الرئيسية" },
@@ -59,6 +60,7 @@ export default function Navbar() {
         { href: "/en", label: "Home" },
         { href: "/en/ask-about-stock", label: "Ask About Stock" },
         { href: "/en/news", label: "News" },
+        { href: "/en/financial-events", label: "Financial Calendar" },
         { href: "/en/signals", label: "Signals" },
         { href: "/en/history", label: "History" },
       ];

@@ -1,5 +1,5 @@
 import React from "react";
-import { Rubik } from "@next/font/google";
+import { Rubik } from "next/font/google";
 
 // Import Rubik with Arabic subset
 const rubik = Rubik({
