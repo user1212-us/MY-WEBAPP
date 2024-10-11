@@ -2,6 +2,7 @@
 import useSWR from "swr";
 import { formatDistanceToNow, addHours } from "date-fns";
 import { ar } from "date-fns/locale";
+import { useEffect } from "react";
 
 interface NewsAr {
   titleAr: string;
@@ -23,9 +24,18 @@ export default function NewsCompArabic() {
     data: newsData,
     error,
     isLoading,
+    mutate,
   } = useSWR<NewsAr[]>("/api/newsar", fetcher, {
-    refreshInterval: 60000, // Refresh every 1 minutes
+    refreshInterval: 60000, // Refresh every 1 minute
   });
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      mutate();
+    }, 60000);
+
+    return () => clearInterval(interval);
+  }, [mutate]);
 
   if (isLoading) {
     return (

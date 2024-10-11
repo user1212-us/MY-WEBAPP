@@ -1,7 +1,7 @@
 "use client";
 import useSWR from "swr";
 import { formatDistanceToNow, addHours } from "date-fns";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 interface News {
   id: string;
@@ -27,9 +27,18 @@ export default function NewsComp() {
     data: newsData,
     error,
     isLoading,
+    mutate,
   } = useSWR<News[]>("/api/news?limit=30", fetcher, {
-    refreshInterval: 60000, // Refresh every 1 minutes
+    refreshInterval: 60000, // Refresh every 1 minute
   });
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      mutate();
+    }, 60000);
+
+    return () => clearInterval(interval);
+  }, [mutate]);
 
   if (isLoading)
     return (
