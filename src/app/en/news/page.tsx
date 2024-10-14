@@ -3,7 +3,7 @@ import { Suspense } from "react";
 import NewsComp from "@/components/newsComp";
 import { Metadata } from "next";
 export const metadata: Metadata = {
-  title: "US Stock Market News | US Stock Hub",
+  title: "News | US Stock Hub",
   description:
     "Get the latest news and updates on the US stock market. Stay informed with breaking news and in-depth analysis.",
   keywords:

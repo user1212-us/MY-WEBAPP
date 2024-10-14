@@ -4,7 +4,14 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import SplitComp from "@/components/split";
 import EarningComp from "@/components/earning";
 import IpoComp from "@/components/ipo";
-
+import { Metadata } from "next";
+export const metadata: Metadata = {
+  title: "Financial Calendar | US Stock Hub",
+  description:
+    "Stay informed with the latest financial calendar, including upcoming IPOs, earnings dates, and stock splits. Get accurate updates on key financial events in the US stock market.",
+  keywords:
+    "financial calendar, IPO calendar, earnings dates, stock splits, US stock market, upcoming IPOs, financial events, stock analysis, market news",
+};
 // Mock data (replace with actual API calls in a real application)
 
 const FinancialEventsPage = () => {

@@ -5,7 +5,7 @@ import "./globals.css"; // Import the global CSS
 import Navbar from "@/components/navbar";
 
 export const metadata = {
-  title: "Stock Market News & Signals | Your Reliable Source",
+  title: "Stock Market News & Signals | US Stock Hub",
   description:
     "Stay updated with the latest stock market news, signals, and comprehensive stock analysis. Get accurate trading signals powered by advanced algorithms.",
   keywords:

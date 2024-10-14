@@ -31,7 +31,7 @@ export default function CurrentSignals({ lang }: langProps) {
     error,
     isLoading,
   } = useSWR<RawSignal[]>("/api/signals", fetcher, {
-    refreshInterval: 60000, // Refresh every 60 seconds (1 minute)
+    refreshInterval: 30000, // Refresh every 30 seconds (half minute)
   });
 
   if (isLoading)

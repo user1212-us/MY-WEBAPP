@@ -6,7 +6,14 @@ import EarningComp from "@/components/earning";
 import IpoComp from "@/components/ipo";
 
 // Mock data (replace with actual API calls in a real application)
-
+import { Metadata } from "next";
+export const metadata: Metadata = {
+  title: "المفكرة المالية | US Stock Hub",
+  description:
+    "ابقَ على اطلاع بأحدث التقويمات المالية بما في ذلك الطروحات الأولية المقبلة، تواريخ الأرباح، وانقسامات الأسهم. احصل على تحديثات دقيقة حول أهم الأحداث المالية في سوق الأسهم الأمريكي.",
+  keywords:
+    "التقويم المالي، تقويم الطروحات الأولية، تواريخ الأرباح، انقسامات الأسهم، سوق الأسهم الأمريكي، الطروحات الأولية المقبلة، الأحداث المالية، تحليل الأسهم، أخبار السوق",
+};
 const FinancialEventsPage = () => {
   return (
     <div className="container mx-auto px-4 py-8" dir="rtl">

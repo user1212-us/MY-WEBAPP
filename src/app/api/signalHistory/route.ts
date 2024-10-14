@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import pool from "@/lib/db";
-export const revalidate = 90; // Revalidate every 60 seconds (1 minute)
+export const revalidate = 60; // Revalidate every 60 seconds (1 minute)
 
 export async function GET() {
   try {

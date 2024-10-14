@@ -30,7 +30,7 @@ export default function HistorySignals({ lang }: langProps) {
     error,
     isLoading,
   } = UseSWR<SignalHistory[]>("/api/signalHistory", fetcher, {
-    refreshInterval: 30000, // Optional: Polling every 30 seconds
+    refreshInterval: 60000, // Optional: Polling every 60 seconds
   });
 
   if (isLoading)

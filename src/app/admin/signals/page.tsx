@@ -81,7 +81,7 @@ const SignalsManagement: React.FC = () => {
     "/api/admin/signals",
     fetchSignals,
     {
-      refreshInterval: 60000,
+      refreshInterval: 30000,
     }
   );
   if (error) {
