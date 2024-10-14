@@ -4,7 +4,7 @@ import { Metadata } from "next";
 import StockSubmit from "@/components/stockSubmitForm";
 
 export const metadata: Metadata = {
-  title: "Ask About Any US Stock | Stock Market Information",
+  title: "Ask About Any US Stock | US Stock Hub",
   description:
     "Ask about any US stock and get comprehensive, real-time data on price, performance, news, and analysis.",
   keywords:

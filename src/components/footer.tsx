@@ -13,7 +13,7 @@ const rubik = Rubik({
 
 const Footer = () => {
   const pathName = usePathname();
-  const langPrefix = pathName.split("/")[1];
+  const langPrefix = pathName ? pathName.split("/")[1] : "en";
   const isArabic = langPrefix === "ar";
 
   const quickLinks = isArabic
@@ -29,7 +29,7 @@ const Footer = () => {
         { href: "/en", label: "Home" },
         { href: "/en/ask-about-stock", label: "Ask About Stock" },
         { href: "/en/news", label: "News" },
-        { href: "/ar/financial-events", label: "المفكرة المالية" },
+        { href: "/en/financial-events", label: "Financial Calendar" },
         { href: "/en/signals", label: "Signals" },
         { href: "/en/history", label: "History" },
       ];

@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 
 export default function NotFoundPage() {
   const pathname = usePathname();
-  let langPrefix = pathname.split("/")[1];
+  let langPrefix = pathname ? pathname.split("/")[1] : "en";
   if (langPrefix !== "ar") {
     if (langPrefix !== "en") {
       langPrefix = "en";

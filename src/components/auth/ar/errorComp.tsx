@@ -14,7 +14,7 @@ function Error() {
     </div>
   );
 }
-export default function ErrorPage() {
+export default function ErrorComp() {
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <Error />

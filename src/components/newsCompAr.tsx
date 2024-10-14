@@ -30,6 +30,9 @@ export default function NewsCompArabic() {
   });
 
   useEffect(() => {
+    // Trigger an immediate re-fetch when the component mounts
+    mutate();
+
     const interval = setInterval(() => {
       mutate();
     }, 60000);

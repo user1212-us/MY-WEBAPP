@@ -12,13 +12,21 @@ export default function LanguageSwitcher({ lang, isMobile }: LangProps) {
   const router = useRouter();
   const pathname = usePathname();
 
-  const changeLanguage = (newLang: "en" | "ar") => {
+  const changeLanguage = async (newLang: "en" | "ar") => {
+    if (pathname === null) return; // Add this line
     const currentLangPrefix = lang === "en" ? "/en" : "/ar";
     const newLangPrefix = newLang === "en" ? "/en" : "/ar";
     const newPath = pathname.replace(currentLangPrefix, newLangPrefix);
+
+    // Update cookie via API
+    await fetch("/api/language", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ language: newLang }),
+    });
+
     router.push(newPath);
   };
-
   return (
     <div
       className={`language-switcher flex ${

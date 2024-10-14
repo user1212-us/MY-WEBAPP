@@ -12,18 +12,27 @@ import {
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { useRouter, useSearchParams } from "next/navigation";
 
+const errTranslate: { [key: string]: string } = {
+  "Invalid verification code or email.":
+    "رمز التحقق أو البريد الإلكتروني غير صالح.",
+  "Error completing the registration process. Please try again later.":
+    "حدث خطأ أثناء إتمام عملية التسجيل. يرجى المحاولة مرة أخرى لاحقاً.",
+  "Verification successful and registration completed.":
+    "تم التحقق بنجاح واكتمال التسجيل.",
+};
+
 function VerificationForm() {
   const [verificationCode, setVerificationCode] = useState("");
   const [error, setError] = useState("");
   const router = useRouter();
   const searchParams = useSearchParams();
-  const email = searchParams?.get("email");
+  const email = searchParams?.get("email") || "";
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (verificationCode.length !== 6) {
-      setError("Please enter a 6-letter verification code.");
+      setError("يرجى إدخال رمز التحقق المكون من 6 أحرف.");
       return;
     }
 
@@ -37,13 +46,13 @@ function VerificationForm() {
       const data = await response.json();
       if (response.ok) {
         // Redirect after successful verification
-        router.push("/auth/login");
+        router.push("/ar/auth/login");
       } else {
         setError(data.error);
       }
     } catch (error) {
       console.error("Error verifying the code:", error);
-      setError("Error verifying the code.");
+      setError("خطأ في التحقق من الرمز.");
     }
   };
 
@@ -63,7 +72,7 @@ function VerificationForm() {
       if (res.ok) {
         setResendTimer(60); // Set the timer for 1 minute (60 seconds)
       } else {
-        setError(data.error || "Error resending the verification code.");
+        setError(data.error || ".حدث خطأ في اعادة ارسال الرمز");
       }
     } catch (error) {
       console.log("An error occurred. Please try again.", error);
@@ -81,14 +90,13 @@ function VerificationForm() {
   }, [resendTimer]);
 
   return (
-    <Card className="max-w-md mx-auto mt-10 ">
+    <Card className="max-w-md mx-auto mt-10 " dir="rtl">
       <CardHeader>
         <CardTitle className="text-3xl font-bold text-[#003E77]">
-          Verify Your Email
+          تحقق من بريدك الإلكتروني
         </CardTitle>
         <CardDescription className="text-center">
-          We've sent a 6-letter verification code to your {email}. Please enter
-          it below.
+          لقد أرسلنا رمز تحقق مكون من 6 أحرف إلى {email}. يرجى إدخاله أدناه.
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -98,13 +106,13 @@ function VerificationForm() {
               className="block text-sm font-medium text-gray-700 mb-2"
               htmlFor="verificationCode"
             >
-              Verification Code
+              رمز التحقق
             </label>
             <Input
               id="verificationCode"
               name="verificationCode"
               type="text"
-              placeholder="Enter 6-letter code"
+              placeholder="أدخل رمز مكون من 6 أحرف"
               value={verificationCode}
               onChange={(e) =>
                 setVerificationCode(e.target.value.toUpperCase())
@@ -116,18 +124,20 @@ function VerificationForm() {
           </div>
           {error && (
             <Alert variant="destructive" className="mb-4">
-              <AlertDescription>{error}</AlertDescription>
+              <AlertDescription>
+                {error in errTranslate ? errTranslate[error] : error}
+              </AlertDescription>
             </Alert>
           )}
           <Button
             type="submit"
             className="w-full bg-[#1877F2] hover:bg-[#166FE5] text-white font-bold"
           >
-            Verify
+            تحقق
           </Button>
         </form>
         <p className="mt-4 text-center text-sm text-gray-500">
-          Didn't receive the code?{" "}
+          لم تتلقَ الرمز؟{" "}
           <button
             className={`text-[#1877F2] hover:text-[#166FE5] ${
               resendTimer > 0 ? "cursor-not-allowed opacity-50" : ""
@@ -136,8 +146,8 @@ function VerificationForm() {
             disabled={resendTimer > 0}
           >
             {resendTimer > 0
-              ? `Resend (${resendTimer} seconds)`
-              : "Resend Verification Code"}
+              ? `اعادة ارسال في (${resendTimer} ثانية)`
+              : "اعادة ارسال رمز التحقق"}
           </button>
           {error && <p className="text-red-500">{error}</p>}
         </p>
@@ -146,7 +156,7 @@ function VerificationForm() {
   );
 }
 
-export default function VerificationPage() {
+export default function VerificationComp() {
   return (
     <>
       <Suspense fallback={<div>Loading...</div>}>

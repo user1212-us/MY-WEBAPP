@@ -120,7 +120,7 @@ function ResetPasswordForm() {
   );
 }
 
-export default function ResetPasswordPage() {
+export default function ResetPasswordComp() {
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <ResetPasswordForm />

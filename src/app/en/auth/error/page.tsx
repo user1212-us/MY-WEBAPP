@@ -4,7 +4,7 @@ import { Suspense } from "react";
 
 function Error() {
   const searchParams = useSearchParams();
-  const error = searchParams.get("error");
+  const error = searchParams?.get("error");
 
   return (
     <div>

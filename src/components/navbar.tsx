@@ -33,7 +33,7 @@ export default function Navbar() {
   const [open, setOpen] = useState(false);
   const router = useRouter();
   const pathName = usePathname();
-  const langPrefix = pathName.split("/")[1];
+  const langPrefix = pathName ? pathName.split("/")[1] : "en";
   const isArabic = langPrefix === "ar";
   const isMobile = useMediaQuery("(max-width: 768px)");
   const isTablet = useMediaQuery("(max-width: 1024px)");

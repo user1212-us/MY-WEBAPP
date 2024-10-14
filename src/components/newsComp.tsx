@@ -33,6 +33,10 @@ export default function NewsComp() {
   });
 
   useEffect(() => {
+    // Trigger an immediate re-fetch when the component mounts
+    mutate();
+
+    // Set up the interval for subsequent re-fetches
     const interval = setInterval(() => {
       mutate();
     }, 60000);

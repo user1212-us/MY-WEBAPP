@@ -22,6 +22,7 @@ const PROTECTED_ROUTES = [
 ];
 
 const LANGUAGES = ["en", "ar"];
+const LANGUAGE_COOKIE_NAME = "preferred_language";
 
 export default withAuth(
   async function middleware(request: NextRequest) {
@@ -35,8 +36,18 @@ export default withAuth(
       if (!pathname.startsWith("/api") && !pathname.startsWith("/admin")) {
         if (!LANGUAGES.includes(langPrefix)) {
           // If no language, redirect to default language (e.g., "en")
-          const defaultLangUrl = new URL(`/en${pathname}`, request.url);
-          return NextResponse.redirect(defaultLangUrl);
+
+          const languageCookie = request.cookies.get(LANGUAGE_COOKIE_NAME);
+          const preferredLanguage = languageCookie
+            ? languageCookie.value
+            : "en";
+
+          // Redirect to the preferred language
+          const preferredLangUrl = new URL(
+            `/${preferredLanguage}${pathname}`,
+            request.url
+          );
+          return NextResponse.redirect(preferredLangUrl);
         }
       }
       const isAuth = await getToken({ req: request });
