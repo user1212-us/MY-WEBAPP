@@ -60,7 +60,7 @@ export default function LoginComp() {
 
   return (
     <>
-      {error && error === "Please log in to access this page" && (
+      {error && error === "يرجى تسجيل الدخول للوصول إلى هذه الصفحة." && (
         <div
           className="w-full max-w-md mx-auto mb-4 p-4 rounded-md bg-blue-50 border border-blue-200 "
           dir="rtl"
@@ -119,11 +119,12 @@ export default function LoginComp() {
                   />
                 </div>
 
-                {error && error !== "Please log in to access this page" && (
-                  <p className="text-red-500 text-sm mb-4">
-                    {errTranslate[error] || "حدث خطأ ما"}
-                  </p>
-                )}
+                {error &&
+                  error !== "يرجى تسجيل الدخول للوصول إلى هذه الصفحة." && (
+                    <p className="text-red-500 text-sm mb-4">
+                      {errTranslate[error] || "حدث خطأ ما"}
+                    </p>
+                  )}
 
                 <div className="flex flex-col sm:flex-row items-center justify-between">
                   <Button

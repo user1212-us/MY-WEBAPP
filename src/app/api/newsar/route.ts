@@ -1,20 +1,6 @@
 import { NextResponse } from "next/server";
 import { translateText } from "@/lib/translate";
-
-interface NewsArticle {
-  titleEn: string; // Original English title
-  titleAr: string; // Translated Arabic title
-  symbol: string;
-  publishedDate: string;
-  site: string;
-}
-
-interface NewsArticleEn {
-  title: string; // Original English title
-  symbol: string;
-  publishedDate: string;
-  site: string;
-}
+import { NewsArticle, NewsArticleEn } from "@/types/news";
 
 // Cache to store translated articles
 let translatedArticlesCache: NewsArticle[] = [];

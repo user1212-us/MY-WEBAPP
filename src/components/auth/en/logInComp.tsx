@@ -48,7 +48,7 @@ export default function LoginComp() {
     } else if (result?.ok) {
       // Redirect to the home page after successful login.
       setSuccess(true);
-      router.push("/");
+      router.push("/en");
 
       window.location.reload(); // Forces a full page reload
     }

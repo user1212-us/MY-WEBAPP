@@ -1,7 +1,9 @@
 "use client";
 import React from "react";
 import Link from "next/link";
-import { Facebook, Twitter, Instagram } from "lucide-react";
+//import { Facebook, Twitter, Instagram } from "lucide-react";
+import { Twitter } from "lucide-react";
+
 import { usePathname } from "next/navigation";
 import { Rubik } from "next/font/google";
 
@@ -86,27 +88,29 @@ const Footer = () => {
             {isArabic ? "تابعنا" : "Follow US"}
           </h4>
           <div className={`flex space-x-4 ${isArabic ? "justify-end " : ""}`}>
-            <a
+            {/*             <a
               href="#"
               className="text-white hover:text-[#D9E8FB] transition-colors"
               aria-label="Facebook"
             >
               <Facebook className="w-6 h-6" />
-            </a>
-            <a
-              href="#"
+            </a> */}
+            <Link
+              href="https://x.com/usstockhub"
               className="text-white hover:text-[#D9E8FB] transition-colors"
               aria-label="Twitter"
+              target="_blank"
+              rel="noopener noreferrer"
             >
               <Twitter className="w-6 h-6" />
-            </a>
-            <a
+            </Link>
+            {/*             <a
               href="#"
               className="text-white hover:text-[#D9E8FB] transition-colors"
               aria-label="Instagram"
             >
               <Instagram className="w-6 h-6" />
-            </a>
+            </a> */}
           </div>
         </div>
       </div>

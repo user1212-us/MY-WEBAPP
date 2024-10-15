@@ -40,7 +40,7 @@ export default withAuth(
           const languageCookie = request.cookies.get(LANGUAGE_COOKIE_NAME);
           const preferredLanguage = languageCookie
             ? languageCookie.value
-            : "en";
+            : "ar";
 
           // Redirect to the preferred language
           const preferredLangUrl = new URL(
@@ -70,8 +70,11 @@ export default withAuth(
         if (pathname === Route.AccessTrackApi) {
           return NextResponse.next();
         }
-
-        const loginUrl = new URL("/" + langPrefix + Route.SignIn, request.url);
+        let lang = langPrefix;
+        if (langPrefix === "admin") {
+          lang = "ar";
+        }
+        const loginUrl = new URL("/" + lang + Route.SignIn, request.url);
         loginUrl.searchParams.set(
           "message",
           `${
