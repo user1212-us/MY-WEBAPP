@@ -8,7 +8,7 @@ import { BarChart2, Menu, X } from "lucide-react";
 const navItems = [
   { href: "/admin", label: "Dashboard" },
   { href: "/admin/signals", label: "Signals" },
-  { href: "/admin/stocks", label: "Stocks" },
+  { href: "/admin/management", label: "Management" },
 ];
 
 export default function AdminTopNav() {

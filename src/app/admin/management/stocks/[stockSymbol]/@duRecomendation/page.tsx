@@ -10,7 +10,7 @@ export default async function DownUpRecomendations({
   let recomendations = null;
   try {
     const response = await fetch(
-      `${process.env.NEXTAUTH_URL}/api/stocks2/stock/downupRecomendation`,
+      `${process.env.NEXTAUTH_URL}/api/management/stock/downupRecomendation`,
       {
         method: "POST",
         headers: {

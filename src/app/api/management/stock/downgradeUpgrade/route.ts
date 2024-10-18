@@ -6,12 +6,12 @@ export async function POST(req: NextRequest) {
   if (apiKey !== API_SECRET_KEY) {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
-  const { symbol } = await req.json();
+  const { type, value } = await req.json();
 
   // Check if the symbol is present
-  if (!symbol) {
+  if (!value || !type) {
     return NextResponse.json(
-      { error: "Stock symbol is required" },
+      { error: `${type} name is required` },
       { status: 400 }
     );
   }
@@ -20,10 +20,18 @@ export async function POST(req: NextRequest) {
     // Parameters (for example, you might use these as query params
 
     // Make the GET request to the external API
-    const apiResponse = await fetch(
-      `https://financialmodelingprep.com/api/v4/upgrades-downgrades?symbol=${symbol}&apikey=${process.env.MY_API_KEY}`,
-      { cache: "no-store" }
-    );
+    let apiResponse;
+    if (type === "company") {
+      apiResponse = await fetch(
+        `https://financialmodelingprep.com/api/v4/upgrades-downgrades-grading-company?company=${value}&apikey=${process.env.MY_API_KEY}`,
+        { cache: "no-store" }
+      );
+    } else {
+      apiResponse = await fetch(
+        `https://financialmodelingprep.com/api/v4/upgrades-downgrades?symbol=${value}&apikey=${process.env.MY_API_KEY}`,
+        { cache: "no-store" }
+      );
+    }
 
     // If the response is not okay, throw an error
     if (!apiResponse.ok) {
@@ -36,7 +44,9 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "No data found" }, { status: 404 });
     }
     // Send the data back to the client
-    return NextResponse.json(data.slice(0, 5), { status: 200 });
+    const returnedData =
+      type === "company" ? data.slice(0, 17) : data.slice(0, 5);
+    return NextResponse.json(returnedData, { status: 200 });
   } catch (error) {
     // Handle any errors
     return NextResponse.json({ err: error }, { status: 500 });

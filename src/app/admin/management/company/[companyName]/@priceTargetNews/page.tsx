@@ -5,21 +5,21 @@ import { ExternalLink } from "lucide-react";
 export default async function PriceTargetNews({
   params,
 }: {
-  params: { stockSymbol: string };
+  params: { companyName: string };
 }) {
-  const symbol = params.stockSymbol.toUpperCase();
-
+  const value = params.companyName;
+  const type = "company";
   let latestTargetArticles: priceTargetSymbol[] | null = null;
   try {
     const response = await fetch(
-      `${process.env.NEXTAUTH_URL}/api/stocks2/stock/priceTargetNews`,
+      `${process.env.NEXTAUTH_URL}/api/management/stock/priceTargetNews`,
       {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           "x-api-key": process.env.API_SECRET_KEY || "fallback-secret-key",
         },
-        body: JSON.stringify({ symbol }),
+        body: JSON.stringify({ value, type }),
       }
     );
 
@@ -29,7 +29,7 @@ export default async function PriceTargetNews({
           <CardContent>
             {" "}
             <h3 className="text-lg font-semibold text-[#1877F2] my-4 text-center ">
-              No price target articles found for {symbol}
+              No price target articles found for {value}
             </h3>
           </CardContent>
         );
@@ -55,7 +55,7 @@ export default async function PriceTargetNews({
       <CardContent>
         {" "}
         <h3 className="text-lg font-semibold text-[#1877F2] my-4 text-center">
-          No price Target articles found for {symbol}
+          No price Target articles found for {value}
         </h3>
       </CardContent>
     );
@@ -71,7 +71,10 @@ export default async function PriceTargetNews({
           >
             <div className="flex justify-between items-center mb-2">
               <span className="text-sm font-medium bg-blue-100 text-blue-800 px-2 py-1 rounded">
-                {article.analystCompany}
+                {article.symbol}
+              </span>
+              <span className="text-sm text-gray-600 italic">
+                Analyst Company: {article.analystCompany}
               </span>
               <span className="text-sm text-gray-600 italic">
                 Analyst: {article.analystName}

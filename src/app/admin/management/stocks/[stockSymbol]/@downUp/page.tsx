@@ -15,19 +15,20 @@ export default async function UpgradeDownGrade({
 }: {
   params: { stockSymbol: string };
 }) {
-  const symbol = params.stockSymbol.toUpperCase();
+  const value = params.stockSymbol.toUpperCase();
+  const type = "symbol";
 
   let grades: upgradeDownGradeSymbol[] | null = null;
   try {
     const response = await fetch(
-      `${process.env.NEXTAUTH_URL}/api/stocks2/stock/downgradeUpgrade`,
+      `${process.env.NEXTAUTH_URL}/api/management/stock/downgradeUpgrade`,
       {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           "x-api-key": process.env.API_SECRET_KEY || "fallback-secret-key",
         },
-        body: JSON.stringify({ symbol }),
+        body: JSON.stringify({ value, type }),
       }
     );
 
@@ -37,7 +38,7 @@ export default async function UpgradeDownGrade({
           <CardContent>
             {" "}
             <h3 className="text-lg font-semibold text-[#1877F2] my-4 text-center ">
-              No grades found for {symbol}
+              No grades found for {value}
             </h3>
           </CardContent>
         );
@@ -63,7 +64,7 @@ export default async function UpgradeDownGrade({
       <CardContent>
         {" "}
         <h3 className="text-lg font-semibold text-[#1877F2] my-4 text-center">
-          No Grades found for {symbol}
+          No Grades found for {value}
         </h3>
       </CardContent>
     );
