@@ -24,10 +24,22 @@ const PROTECTED_ROUTES = [
 const LANGUAGES = ["en", "ar"];
 const LANGUAGE_COOKIE_NAME = "preferred_language";
 
+const ADMIN_API_ROUTES = ["/api/admin"];
+
 export default withAuth(
   async function middleware(request: NextRequest) {
     try {
       const pathname = request.nextUrl.pathname;
+      const isAuth = await getToken({ req: request });
+      const userRole = isAuth?.role;
+
+      // Handle admin API routes
+      if (ADMIN_API_ROUTES.some((route) => pathname.startsWith(route))) {
+        if (!isAuth || userRole !== "admin") {
+          return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+        }
+        return NextResponse.next();
+      }
 
       // Extract the language from the URL (assumes the language comes first in the path)
       const langPrefix = pathname.split("/")[1];
@@ -50,7 +62,7 @@ export default withAuth(
           return NextResponse.redirect(preferredLangUrl);
         }
       }
-      const isAuth = await getToken({ req: request });
+
       const isAuthRoute = pathname.startsWith("/" + langPrefix + Route.Auth);
       const isProtected = PROTECTED_ROUTES.some(
         (route) =>
@@ -58,7 +70,7 @@ export default withAuth(
           pathname.startsWith(route)
       );
       const isAdminRoute = pathname.startsWith(Route.Admin);
-      const userRole = isAuth?.role;
+
       if (isAuthRoute && isAuth) {
         return NextResponse.redirect(
           new URL("/" + langPrefix + Route.Home, request.url)
@@ -92,6 +104,12 @@ export default withAuth(
         return NextResponse.next();
       }
       if (
+        (isAdminRoute || pathname.startsWith(Route.AdminApi)) &&
+        (!isAuth || userRole !== "admin")
+      ) {
+        return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+      }
+      if (
         pathname.startsWith("/" + langPrefix + "/ask-about-stock/") &&
         isAuth
       ) {
@@ -112,16 +130,14 @@ export default withAuth(
           );
         }
       }
-      if (
-        (!isAuth || userRole !== "admin") &&
-        pathname.startsWith(Route.AdminApi)
-      ) {
-        return new NextResponse("Unauthorized", { status: 401 });
-      }
+
       return NextResponse.next();
     } catch (error) {
       console.error("Middleware error:", error);
-      return NextResponse.next();
+      return NextResponse.json(
+        { error: "Internal Server Error" },
+        { status: 500 }
+      );
     }
   },
   {

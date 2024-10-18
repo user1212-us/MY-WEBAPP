@@ -84,7 +84,8 @@ export default async function LatestArticles({
             <p className="text-gray-600 mb-2">{article.translatedText}</p>
             <div className="flex flex-row-reverse justify-between items-end text-xs text-gray-500">
               <span className="bg-gray-100 px-2 py-1 rounded">
-                تاريخ النشر: {article.publishedDate}
+                تاريخ النشر:{" "}
+                {new Date(article.publishedDate).toLocaleDateString()}
               </span>
               <span className="italic">
                 المصدر: {article.site.split(".")[0]}

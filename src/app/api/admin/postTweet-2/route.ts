@@ -93,6 +93,7 @@ export async function POST() {
       if (!result.success) {
         //console.error("Failed to post tweet:", result.error);
         console.error("Failed to post tweet");
+        throw new Error("Failed to Post tweets (Maybe bundle finished)");
       }
     }
 
