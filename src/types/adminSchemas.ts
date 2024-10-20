@@ -31,3 +31,21 @@ export interface upgradeDownGradeSymbol {
   action: string;
   priceWhenPosted: number;
 }
+
+export interface newsRSS {
+  symbol: string;
+  publishedDate: string;
+  title: string;
+  site: string;
+  text: string;
+  sentiment: string;
+  sentimentScore: number;
+}
+
+export interface delisted {
+  symbol: string;
+  companyName: string;
+  exchange: string;
+  ipoDate: string;
+  delistedDate: string;
+}

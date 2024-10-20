@@ -3,27 +3,34 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { BarChart2, Menu, X } from "lucide-react";
+import { BarChart2, Menu, X, ChevronDown } from "lucide-react";
 
 const navItems = [
   { href: "/admin", label: "Dashboard" },
   { href: "/admin/signals", label: "Signals" },
   { href: "/admin/management", label: "Management" },
 ];
-
+const newsDropdownItems = [
+  { href: "/admin/news/sentiment", label: "Sentiment News" },
+  { href: "/admin/news/upgrades-downgrades", label: "Upgrades/Downgrades" },
+  { href: "/admin/news/price-targets", label: "Price Targets" },
+];
 export default function AdminTopNav() {
   const pathname = usePathname();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isNewsDropdownOpen, setIsNewsDropdownOpen] = useState(false);
+
+  const isNewsSection = pathname.startsWith("/news");
 
   return (
     <nav className="bg-[#003E77] text-white">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
-          <Link href="/admin" className="flex items-center space-x-2">
+          <Link href="/" className="flex items-center space-x-2">
             <BarChart2 className="h-6 w-6" />
-            <span className="text-xl font-bold">US Stock Hub Admin</span>
+            <span className="text-xl font-bold">Stocks</span>
           </Link>
-          <div className="hidden md:flex space-x-4">
+          <div className="hidden md:flex items-center space-x-4">
             {navItems.map((item) => (
               <Link
                 key={item.href}
@@ -37,6 +44,38 @@ export default function AdminTopNav() {
                 {item.label}
               </Link>
             ))}
+            <div className="relative">
+              <button
+                onClick={() => setIsNewsDropdownOpen(!isNewsDropdownOpen)}
+                className={`flex items-center px-3 py-2 rounded-md text-sm font-medium ${
+                  isNewsSection
+                    ? "bg-[#1877F2] text-white"
+                    : "text-gray-300 hover:bg-[#1877F2] hover:text-white"
+                }`}
+              >
+                News <ChevronDown className="ml-1 h-4 w-4" />
+              </button>
+              {isNewsDropdownOpen && (
+                <div className="absolute z-10 right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
+                  <div className="py-1">
+                    {newsDropdownItems.map((item) => (
+                      <Link
+                        key={item.href}
+                        href={item.href}
+                        className={`block px-4 py-2 text-sm ${
+                          pathname === item.href
+                            ? "bg-gray-100 text-[#003E77]"
+                            : "text-gray-700 hover:bg-gray-100 hover:text-[#003E77]"
+                        }`}
+                        onClick={() => setIsNewsDropdownOpen(false)}
+                      >
+                        {item.label}
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
           <div className="md:hidden">
             <button
@@ -69,6 +108,39 @@ export default function AdminTopNav() {
                 {item.label}
               </Link>
             ))}
+            <div className="relative">
+              <button
+                onClick={() => setIsNewsDropdownOpen(!isNewsDropdownOpen)}
+                className={`flex items-center w-full px-3 py-2 rounded-md text-base font-medium ${
+                  isNewsSection
+                    ? "bg-[#1877F2] text-white"
+                    : "text-gray-300 hover:bg-[#1877F2] hover:text-white"
+                }`}
+              >
+                News <ChevronDown className="ml-1 h-4 w-4" />
+              </button>
+              {isNewsDropdownOpen && (
+                <div className="mt-2 space-y-1">
+                  {newsDropdownItems.map((item) => (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      className={`block pl-6 pr-3 py-2 rounded-md text-base font-medium ${
+                        pathname === item.href
+                          ? "bg-[#1877F2] text-white"
+                          : "text-gray-300 hover:bg-[#1877F2] hover:text-white"
+                      }`}
+                      onClick={() => {
+                        setIsMenuOpen(false);
+                        setIsNewsDropdownOpen(false);
+                      }}
+                    >
+                      {item.label}
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
         </div>
       )}

@@ -54,10 +54,21 @@ async function fetchAndTranslateNews(): Promise<NewsArticle[]> {
     })
   );
 
-  // Update the cache with new translated articles
+  // Sort new translated articles by publishedDate in descending order
+  newTranslatedArticles.sort(
+    (a, b) =>
+      new Date(b.publishedDate).getTime() - new Date(a.publishedDate).getTime()
+  );
+
+  // Update the cache with new translated articles at the beginning
   translatedArticlesCache = [
     ...newTranslatedArticles,
-    ...translatedArticlesCache,
+    ...translatedArticlesCache.filter(
+      (cachedArticle) =>
+        !newTranslatedArticles.some(
+          (newArticle) => newArticle.titleEn === cachedArticle.titleEn
+        )
+    ),
   ].slice(0, 30);
 
   return translatedArticlesCache;

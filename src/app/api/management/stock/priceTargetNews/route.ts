@@ -32,6 +32,11 @@ export async function POST(req: NextRequest) {
         `https://financialmodelingprep.com/api/v4/price-target-analyst-name?name=${value}&apikey=${process.env.MY_API_KEY}`,
         { cache: "no-store" }
       );
+    } else if (type === "news") {
+      apiResponse = await fetch(
+        `https://financialmodelingprep.com/api/v4/price-target-rss-feed?page=0&apikey=${process.env.MY_API_KEY}`,
+        { cache: "no-store" }
+      );
     } else {
       apiResponse = await fetch(
         `https://financialmodelingprep.com/api/v4/price-target?symbol=${value}&apikey=${process.env.MY_API_KEY}`,
@@ -51,7 +56,11 @@ export async function POST(req: NextRequest) {
     }
     // Send the data back to the client
     const returnedData =
-      type === "symbol" ? data.slice(0, 5) : data.slice(0, 17);
+      type === "symbol"
+        ? data.slice(0, 6)
+        : type === "news"
+        ? data.slice(0, 25)
+        : data.slice(0, 17);
     return NextResponse.json(returnedData, { status: 200 });
   } catch (error) {
     // Handle any errors
