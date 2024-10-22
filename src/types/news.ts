@@ -3,6 +3,8 @@ export interface NewsArticleEn {
   symbol: string;
   publishedDate: string;
   site: string;
+  sentiment: string;
+  sentimentScore: number;
 }
 
 export interface NewsArticle {
@@ -11,6 +13,8 @@ export interface NewsArticle {
   symbol: string;
   publishedDate: string;
   site: string;
+  sentiment: string;
+  sentimentScore: number;
 }
 
 // Define the news interface
@@ -19,4 +23,6 @@ export interface NewsAr {
   symbol: string;
   publishedDate: string;
   site: string;
+  sentiment: string;
+  sentimentScore: number;
 }

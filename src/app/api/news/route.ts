@@ -1,19 +1,20 @@
+import { newsRSS } from "@/types/adminSchemas";
 import { NextResponse } from "next/server";
 
 // Define a type for the news article
-interface NewsArticle {
+/* interface NewsArticle {
   title: string;
   text: string;
   symbol: string;
   publishedDate: string;
   site: string;
-}
+} */
 export const revalidate = 60; // Revalidate every 60 seconds (1 minute)
 
 export async function GET() {
   try {
     // Fetch new articles from the API
-    const newArticles = await fetchNewsFromAPI();
+    const newArticles: newsRSS[] = await fetchNewsFromAPI();
 
     /*  // Store new articles in the database
     await storeNewsInDatabase(newArticles);
@@ -31,11 +32,14 @@ export async function GET() {
   }
 }
 
-async function fetchNewsFromAPI(): Promise<NewsArticle[]> {
-  const apiResponse = await fetch(
+async function fetchNewsFromAPI(): Promise<newsRSS[]> {
+  /*  const apiResponse = await fetch(
     `https://financialmodelingprep.com/api/v3/stock_news?limit=30&apikey=${process.env.MY_API_KEY}`
+  ); */
+  // this will contain the setiment
+  const apiResponse = await fetch(
+    `https://financialmodelingprep.com/api/v4/stock-news-sentiments-rss-feed?page=0&apikey=${process.env.MY_API_KEY}`
   );
-
   if (!apiResponse.ok) {
     throw new Error("Failed to fetch news data");
   }

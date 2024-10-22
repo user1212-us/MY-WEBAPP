@@ -23,17 +23,17 @@ export async function GET() {
 async function fetchAndTranslateNews(): Promise<NewsArticle[]> {
   // Fetch new articles every minute
   const apiResponse = await fetch(
-    `https://financialmodelingprep.com/api/v3/stock_news?limit=30&apikey=${process.env.MY_API_KEY}`
+    `https://financialmodelingprep.com/api/v4/stock-news-sentiments-rss-feed?page=0&apikey=${process.env.MY_API_KEY}`
   );
 
   if (!apiResponse.ok) {
     throw new Error("Failed to fetch news data");
   }
 
-  const newsData = await apiResponse.json();
-
+  const newsData: [] = await apiResponse.json();
+  const newsDataSliced = newsData.slice(0, 40);
   // Filter out articles that are already in the cache
-  const newArticles = newsData.filter(
+  const newArticles = newsDataSliced.filter(
     (article: NewsArticleEn) =>
       !translatedArticlesCache.some(
         (cachedArticle) => cachedArticle.titleEn === article.title
@@ -50,6 +50,8 @@ async function fetchAndTranslateNews(): Promise<NewsArticle[]> {
         symbol: article.symbol,
         publishedDate: article.publishedDate,
         site: article.site,
+        sentiment: article.sentiment,
+        sentimentScore: article.sentimentScore,
       };
     })
   );
@@ -69,7 +71,7 @@ async function fetchAndTranslateNews(): Promise<NewsArticle[]> {
           (newArticle) => newArticle.titleEn === cachedArticle.titleEn
         )
     ),
-  ].slice(0, 30);
+  ].slice(0, 40);
 
   return translatedArticlesCache;
 }
