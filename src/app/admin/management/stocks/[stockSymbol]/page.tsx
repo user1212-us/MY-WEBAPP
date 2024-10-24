@@ -2,7 +2,8 @@ import { ArrowUpIcon, ArrowDownIcon } from "lucide-react";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { TrendingUpIcon, BarChart3Icon } from "lucide-react";
 import { notFound } from "next/navigation";
-
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 export default async function AskAboutStockPage({
   params,
 }: {
@@ -18,6 +19,7 @@ export default async function AskAboutStockPage({
         "x-api-key": process.env.API_SECRET_KEY || "fallback-secret-key",
       },
       body: JSON.stringify({ symbol }),
+      cache: "no-store",
     });
 
     if (!response.ok) {

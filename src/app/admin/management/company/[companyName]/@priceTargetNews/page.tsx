@@ -2,6 +2,9 @@ import { CardContent } from "@/components/ui/card";
 import { priceTargetSymbol } from "@/types/adminSchemas";
 import { ExternalLink } from "lucide-react";
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 export default async function PriceTargetNews({
   params,
 }: {
@@ -20,6 +23,7 @@ export default async function PriceTargetNews({
           "x-api-key": process.env.API_SECRET_KEY || "fallback-secret-key",
         },
         body: JSON.stringify({ value, type }),
+        cache: "no-store",
       }
     );
 

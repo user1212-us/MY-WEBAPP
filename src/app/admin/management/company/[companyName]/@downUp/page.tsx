@@ -10,6 +10,10 @@ import {
 } from "@/components/ui/table";
 import { ArrowUpCircle, ArrowDownCircle } from "lucide-react";
 import { upgradeDownGradeSymbol } from "@/types/adminSchemas";
+
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 export default async function UpgradeDownGrade({
   params,
 }: {
@@ -18,6 +22,7 @@ export default async function UpgradeDownGrade({
   const value = params.companyName;
   const type = "company";
   let grades: upgradeDownGradeSymbol[] | null = null;
+
   try {
     const response = await fetch(
       `${process.env.NEXTAUTH_URL}/api/management/stock/downgradeUpgrade`,
@@ -28,6 +33,7 @@ export default async function UpgradeDownGrade({
           "x-api-key": process.env.API_SECRET_KEY || "fallback-secret-key",
         },
         body: JSON.stringify({ type, value }),
+        cache: "no-store",
       }
     );
 

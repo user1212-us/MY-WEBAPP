@@ -10,6 +10,10 @@ import {
 } from "@/components/ui/table";
 import { ArrowUpCircle, ArrowDownCircle } from "lucide-react";
 import { upgradeDownGradeSymbol } from "@/types/adminSchemas";
+
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 export default async function UpgradeDownGrade({
   params,
 }: {
@@ -29,6 +33,7 @@ export default async function UpgradeDownGrade({
           "x-api-key": process.env.API_SECRET_KEY || "fallback-secret-key",
         },
         body: JSON.stringify({ value, type }),
+        cache: "no-store",
       }
     );
 

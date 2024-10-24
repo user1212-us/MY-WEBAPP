@@ -6,7 +6,8 @@ const errTranslate: { [key: string]: string } = {
   MedianTarget: "الهدف المتوسط",
   LowTarget: "أدنى هدف",
 };
-
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 export default async function Recomendations({
   params,
 }: {
@@ -25,6 +26,7 @@ export default async function Recomendations({
           "x-api-key": process.env.API_SECRET_KEY || "fallback-secret-key",
         },
         body: JSON.stringify({ symbol }),
+        cache: "no-store",
       }
     );
 

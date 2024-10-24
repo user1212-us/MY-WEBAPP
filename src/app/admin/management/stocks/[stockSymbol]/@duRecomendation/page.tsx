@@ -1,5 +1,7 @@
 import { CardContent } from "@/components/ui/card";
 import { upgradeDownGradeRecomendationSymbol } from "@/types/adminSchemas";
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 export default async function DownUpRecomendations({
   params,
 }: {
@@ -18,6 +20,7 @@ export default async function DownUpRecomendations({
           "x-api-key": process.env.API_SECRET_KEY || "fallback-secret-key",
         },
         body: JSON.stringify({ symbol }),
+        cache: "no-store",
       }
     );
 

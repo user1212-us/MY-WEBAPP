@@ -1,5 +1,6 @@
 import { CardContent } from "@/components/ui/card";
-
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 export default async function PriceTargets({
   params,
 }: {
@@ -18,6 +19,7 @@ export default async function PriceTargets({
           "x-api-key": process.env.API_SECRET_KEY || "fallback-secret-key",
         },
         body: JSON.stringify({ symbol }),
+        cache: "no-store",
       }
     );
 

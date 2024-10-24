@@ -14,7 +14,8 @@ export async function generateMetadata({
     keywords: `${params.stockSymbol}, تحليل الأسهم, بيانات سوق الأسهم, أسعار الأسهم الأمريكية, أخبار الأسهم`,
   };
 }
-
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 export default async function AskAboutStockPage({
   params,
 }: {
@@ -30,6 +31,7 @@ export default async function AskAboutStockPage({
         "x-api-key": process.env.API_SECRET_KEY || "fallback-secret-key",
       },
       body: JSON.stringify({ symbol }),
+      cache: "no-store",
     });
 
     if (!response.ok) {

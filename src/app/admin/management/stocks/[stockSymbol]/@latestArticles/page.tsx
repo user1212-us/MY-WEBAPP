@@ -6,7 +6,8 @@ interface Article {
   site: string;
   publishedDate: string;
 }
-
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 export default async function LatestArticles({
   params,
 }: {
@@ -23,6 +24,7 @@ export default async function LatestArticles({
         "x-api-key": process.env.API_SECRET_KEY || "fallback-secret-key",
       },
       body: JSON.stringify({ symbol }),
+      cache: "no-store",
     });
 
     if (!response.ok) {
