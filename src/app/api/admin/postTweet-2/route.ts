@@ -1,7 +1,7 @@
 import OAuth from "oauth-1.0a";
 import crypto from "crypto-js";
 import { NextResponse } from "next/server";
-import { NewsArticle, NewsArticleEn } from "@/types/news";
+import { NewsArticleTwitter, NewsArticleEnTwitter } from "@/types/news";
 import { translateText } from "@/lib/translate";
 import { createTweetTemplate } from "@/lib/tweetTemplate";
 import { getServerSession } from "next-auth";
@@ -86,7 +86,12 @@ export async function POST() {
 
     for (const item of newsArticles) {
       const result = await postTweet(
-        createTweetTemplate(item.symbol, item.titleAr)
+        createTweetTemplate(
+          item.symbol,
+          item.titleAr,
+          item.textAr,
+          item.sentiment
+        )
       );
       results.push(result);
 
@@ -107,30 +112,34 @@ export async function POST() {
   }
 }
 
-async function fetchAndTranslateNews(): Promise<NewsArticle[]> {
+async function fetchAndTranslateNews(): Promise<NewsArticleTwitter[]> {
   // Fetch new articles every minute
   const apiResponse = await fetch(
-    `https://financialmodelingprep.com/api/v3/stock_news?limit=5&apikey=${process.env.MY_API_KEY}`
+    `https://financialmodelingprep.com/api/v4/stock-news-sentiments-rss-feed?page=0&apikey=${process.env.MY_API_KEY}`
   );
 
   if (!apiResponse.ok) {
     throw new Error("Failed to fetch news data");
   }
 
-  const newsData = await apiResponse.json();
-
+  const newsData: [] = await apiResponse.json();
+  const newsDataSliced = newsData.slice(0, 5);
   // Filter out articles that are already in the cache
 
   // Translate only the new articles
   const translatedArticles = await Promise.all(
-    newsData.map(async (article: NewsArticleEn) => {
+    newsDataSliced.map(async (article: NewsArticleEnTwitter) => {
       const translatedTitle = await translateText(article.title);
+      const translatedText = await translateText(article.text);
       return {
         titleEn: article.title,
         titleAr: translatedTitle,
         symbol: article.symbol,
         publishedDate: article.publishedDate,
         site: article.site,
+        sentiment: article.sentiment,
+        sentimentScore: article.sentimentScore,
+        textAr: translatedText,
       };
     })
   );
