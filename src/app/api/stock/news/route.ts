@@ -6,7 +6,7 @@ export async function POST(req: NextRequest) {
   if (apiKey !== API_SECRET_KEY) {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
-  const { symbol } = await req.json();
+  const { symbol, from } = await req.json();
 
   // Check if the symbol is present
   if (!symbol) {
@@ -15,13 +15,13 @@ export async function POST(req: NextRequest) {
       { status: 400 }
     );
   }
-
+  const limit = from === "admin" ? 7 : 2;
   try {
     // Parameters (for example, you might use these as query params
 
     // Make the GET request to the external API
     const apiResponse = await fetch(
-      `https://financialmodelingprep.com/api/v3/stock_news?tickers=${symbol}&limit=2&apikey=${process.env.MY_API_KEY}`,
+      `https://financialmodelingprep.com/api/v3/stock_news?tickers=${symbol}&limit=${limit}&apikey=${process.env.MY_API_KEY}`,
       { cache: "no-store" }
     );
 

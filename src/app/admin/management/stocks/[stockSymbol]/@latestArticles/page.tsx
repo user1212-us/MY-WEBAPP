@@ -23,7 +23,7 @@ export default async function LatestArticles({
         "Content-Type": "application/json",
         "x-api-key": process.env.API_SECRET_KEY || "fallback-secret-key",
       },
-      body: JSON.stringify({ symbol }),
+      body: JSON.stringify({ symbol, from: "admin" }),
       cache: "no-store",
     });
 
