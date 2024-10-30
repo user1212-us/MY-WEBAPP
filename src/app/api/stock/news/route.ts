@@ -15,7 +15,7 @@ export async function POST(req: NextRequest) {
       { status: 400 }
     );
   }
-  const limit = from === "admin" ? 7 : 2;
+  const limit = from === "admin" ? 7 : 4;
   try {
     // Parameters (for example, you might use these as query params
 

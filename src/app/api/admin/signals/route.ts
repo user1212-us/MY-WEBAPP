@@ -61,6 +61,19 @@ export async function POST(req: NextRequest) {
     signalSchema.parse(body);
     const { symbol, enterPrice, firstTarget, secondTarget } = body;
 
+    // Try to fetch current price first
+    let currentPrice;
+    try {
+      currentPrice = await fetchCurrentPrice(symbol);
+    } catch (error) {
+      console.error(error);
+
+      return NextResponse.json(
+        { error: "Invalid symbol or unable to fetch current price" },
+        { status: 400 }
+      );
+    }
+
     const client = await pool.connect();
     const query = `
       INSERT INTO signals (symbol, type, enter_price, price_now, first_target, second_target)
@@ -71,7 +84,7 @@ export async function POST(req: NextRequest) {
       symbol,
       "Buy",
       enterPrice,
-      enterPrice,
+      currentPrice,
       firstTarget,
       secondTarget,
     ]);

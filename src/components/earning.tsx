@@ -8,6 +8,10 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Earning } from "@/types/calender";
+//--
+//bmo
+//amc
+
 const whenTranslate: { [key: string]: string } = {
   "pre market": "قبل افتتاح الجلسة",
   "post market": "بعد إغلاق الجلسة",
@@ -110,3 +114,15 @@ export default async function EarningComp({
     </div>
   );
 }
+
+/* const whenEnTranslate: { [key: string]: string } = {
+  bmo: "pre market",
+  amc: "post market",
+  "--": "during market",
+};
+
+const whenTranslate: { [key: string]: string } = {
+  bmo: "قبل افتتاح الجلسة",
+  amc: "بعد إغلاق الجلسة",
+  "--": "أثناء الجلسة",
+}; */

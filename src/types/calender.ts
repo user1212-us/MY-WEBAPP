@@ -12,6 +12,7 @@ export interface Earning {
   date: string;
   exchange: string;
   when: string;
+  //time: string;
 }
 
 export interface IPO {

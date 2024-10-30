@@ -45,7 +45,7 @@ const fetchSignals = async (): Promise<Signal[]> => {
 // Add signal function (Omit 'id' and 'status')
 const addSignalToBackend = async (
   newSignal: Omit<Signal, "id" | "dateOpened" | "type" | "priceNow">
-): Promise<void> => {
+): Promise<{ error?: string }> => {
   const res = await fetch("/api/admin/signals", {
     method: "POST",
     headers: {
@@ -53,9 +53,11 @@ const addSignalToBackend = async (
     },
     body: JSON.stringify(newSignal),
   });
+  const data = await res.json();
   if (!res.ok) {
-    console.error("Failed to add new signal.");
+    return { error: data.error || "Failed to add new signal" };
   }
+  return {};
 };
 
 // Delete signal function
@@ -104,6 +106,7 @@ const SignalsManagement: React.FC = () => {
   });
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editSignal, setEditSignal] = useState<Signal | null>(null);
+  const [signalError, setSignalError] = useState<string | null>(null);
 
   // Delete a signal
   const deleteSignal = useCallback(
@@ -128,14 +131,19 @@ const SignalsManagement: React.FC = () => {
 
   // Add a new signal
   const addSignal = async () => {
-    await addSignalToBackend(newSignal);
-    mutate(); // Refresh signals
-    setNewSignal({
-      symbol: "",
-      enterPrice: 0,
-      firstTarget: 0,
-      secondTarget: 0,
-    });
+    const result = await addSignalToBackend(newSignal);
+    if (result.error) {
+      setSignalError(result.error);
+    } else {
+      mutate(); // Refresh signals
+      setNewSignal({
+        symbol: "",
+        enterPrice: 0,
+        firstTarget: 0,
+        secondTarget: 0,
+      });
+      setSignalError(null);
+    }
   };
 
   // Function to handle submitting the updated signal
@@ -173,6 +181,11 @@ const SignalsManagement: React.FC = () => {
               <h2 className="text-xl font-semibold text-[#1877F2] mb-4">
                 Add New Signal
               </h2>
+              {signalError && (
+                <div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded">
+                  {signalError}
+                </div>
+              )}
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
                 <div>
                   <label
@@ -186,7 +199,10 @@ const SignalsManagement: React.FC = () => {
                     placeholder="Enter symbol"
                     value={newSignal.symbol}
                     onChange={(e) =>
-                      setNewSignal({ ...newSignal, symbol: e.target.value })
+                      setNewSignal({
+                        ...newSignal,
+                        symbol: e.target.value.toUpperCase(),
+                      })
                     }
                   />
                 </div>

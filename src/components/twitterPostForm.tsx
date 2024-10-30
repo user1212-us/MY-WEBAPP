@@ -31,7 +31,7 @@ export default function TwitterPostForm() {
   };
 
   return (
-    <div m-0 p-0>
+    <div className="m-0 p-0">
       <Button
         className="w-full md:w-auto"
         onClick={twitterPost}
