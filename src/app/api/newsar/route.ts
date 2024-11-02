@@ -44,6 +44,7 @@ async function fetchAndTranslateNews(): Promise<NewsArticle[]> {
   const newTranslatedArticles = await Promise.all(
     newArticles.map(async (article: NewsArticleEn) => {
       const translatedTitle = await translateText(article.title);
+      const translatedText = await translateText(article.text);
       return {
         titleEn: article.title,
         titleAr: translatedTitle,
@@ -52,6 +53,7 @@ async function fetchAndTranslateNews(): Promise<NewsArticle[]> {
         site: article.site,
         sentiment: article.sentiment,
         sentimentScore: article.sentimentScore,
+        text: translatedText,
       };
     })
   );

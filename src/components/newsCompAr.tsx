@@ -2,7 +2,7 @@
 import useSWR from "swr";
 import { formatDistanceToNow } from "date-fns";
 import { ar } from "date-fns/locale";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { TrendingUp, TrendingDown, Minus } from "lucide-react";
 
 interface NewsAr {
@@ -12,6 +12,8 @@ interface NewsAr {
   site: string;
   sentiment: string;
   sentimentScore: number;
+  id: string;
+  text: string;
 }
 
 const fetcher = async (url: string) => {
@@ -23,6 +25,7 @@ const fetcher = async (url: string) => {
 };
 
 export default function NewsCompArabic() {
+  const [expandedNews, setExpandedNews] = useState<string | null>(null);
   const {
     data: newsData,
     error,
@@ -79,13 +82,12 @@ export default function NewsCompArabic() {
         return <Minus className="w-4 h-4" />;
     }
   };
-
   return (
     <div className="grid gap-6 md:grid-cols-2" dir="rtl">
       {newsData.map((item, index) => (
         <div
           key={index}
-          className="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300"
+          className="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden"
         >
           <div className="flex items-start justify-between mb-3">
             <span className="text-sm font-bold bg-[#D9E8FB] text-[#003E77] px-3 py-1 rounded-full whitespace-nowrap">
@@ -102,16 +104,36 @@ export default function NewsCompArabic() {
               </span>
             </div>
           </div>
-          <h2 className="text-x font-semibold text-[#1877F2] flex-grow pl-4 mt-2">
+
+          <h2 className="text-base sm:text-base font-semibold text-[#1877F2] flex-grow pr-4 mt-2 mb-1">
             {item.titleAr}
           </h2>
-          <div className="flex justify-between items-end text-xs text-gray-500">
-            <span className="bg-gray-100 px-2 py-1 rounded">
-              {formatDistanceToNow(new Date(item.publishedDate), {
-                addSuffix: true,
-                locale: ar,
-              })}
-            </span>
+          <div className="relative">
+            <div
+              className={`text-gray-700 mb-4 text-sm leading-relaxed ${
+                expandedNews === item.id
+                  ? "max-h-48 overflow-y-auto pr-2"
+                  : "max-h-24 overflow-hidden"
+              }`}
+            >
+              <p className="break-words">{item.text}</p>
+            </div>
+            {item.text.length > 200 && (
+              <button
+                className="text-[#1877F2] font-semibold mt-2"
+                onClick={() =>
+                  setExpandedNews(expandedNews === item.id ? null : item.id)
+                }
+              >
+                {expandedNews === item.id ? "عرض أقل" : "عرض المزيد"}
+              </button>
+            )}
+          </div>
+          <div className="flex justify-between items-end text-xs text-gray-500 mt-4">
+            {formatDistanceToNow(new Date(item.publishedDate), {
+              addSuffix: true,
+              locale: ar,
+            })}
             <span className="italic">المصدر: {item.site.split(".")[0]}</span>
           </div>
         </div>
@@ -119,3 +141,42 @@ export default function NewsCompArabic() {
     </div>
   );
 }
+
+/* return (
+  <div className="grid gap-6 md:grid-cols-2" dir="rtl">
+    {newsData.map((item, index) => (
+      <div
+        key={index}
+        className="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300"
+      >
+        <div className="flex items-start justify-between mb-3">
+          <span className="text-sm font-bold bg-[#D9E8FB] text-[#003E77] px-3 py-1 rounded-full whitespace-nowrap">
+            {item.symbol}
+          </span>
+          <div
+            className={`flex items-center ${getSentimentColor(
+              item.sentiment
+            )}`}
+          >
+            {getSentimentIcon(item.sentiment)}
+            <span className="ml-1 text-sm font-medium">
+              {item.sentimentScore.toFixed(2)}
+            </span>
+          </div>
+        </div>
+        <h2 className="text-x font-semibold text-[#1877F2] flex-grow pl-4 mt-2">
+          {item.titleAr}
+        </h2>
+        <div className="flex justify-between items-end text-xs text-gray-500">
+          <span className="bg-gray-100 px-2 py-1 rounded">
+            {formatDistanceToNow(new Date(item.publishedDate), {
+              addSuffix: true,
+              locale: ar,
+            })}
+          </span>
+          <span className="italic">المصدر: {item.site.split(".")[0]}</span>
+        </div>
+      </div>
+    ))}
+  </div>
+); */

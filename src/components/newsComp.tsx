@@ -104,7 +104,7 @@ export default function NewsComp() {
             </div>
           </div>
 
-          <h2 className="text-base sm:text-base font-semibold text-[#1877F2] flex-grow pr-4 mt-2">
+          <h2 className="text-base sm:text-base font-semibold text-[#1877F2] flex-grow pr-4 mt-2 mb-1">
             {item.title}
           </h2>
           <div className="relative">

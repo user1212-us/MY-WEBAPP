@@ -15,6 +15,7 @@ const NewsPage = () => {
       <h1 className="text-3xl md:text-4xl font-bold mb-8 text-[#003E77] border-b-2 border-[#1877F2] pb-4">
         Latest Stock Market News
       </h1>
+      <p className="text-sm text-gray-600 mb-8">News updated every minute.</p>
       <Suspense
         fallback={
           <div className="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300">

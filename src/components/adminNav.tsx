@@ -8,6 +8,7 @@ import { BarChart2, Menu, X, ChevronDown } from "lucide-react";
 const navItems = [
   { href: "/admin", label: "Dashboard" },
   { href: "/admin/signals", label: "Signals" },
+  { href: "/admin/twitter", label: "Twitter" },
   { href: "/admin/management", label: "Management" },
 ];
 const newsDropdownItems = [

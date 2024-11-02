@@ -5,6 +5,7 @@ export interface NewsArticleEn {
   site: string;
   sentiment: string;
   sentimentScore: number;
+  text: string;
 }
 
 export interface NewsArticle {
@@ -15,6 +16,7 @@ export interface NewsArticle {
   site: string;
   sentiment: string;
   sentimentScore: number;
+  text: string;
 }
 
 // Define the news interface
@@ -25,6 +27,7 @@ export interface NewsAr {
   site: string;
   sentiment: string;
   sentimentScore: number;
+  text: string;
 }
 
 //for twitter they will contain also the text

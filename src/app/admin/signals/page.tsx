@@ -15,7 +15,6 @@ import { PlusCircle, Edit, X } from "lucide-react";
 import { Signal, RawSignal } from "@/types/signal";
 import { EditSignalModal } from "@/components/editSignal";
 import useSWR from "swr";
-import TwitterPostForm from "@/components/twitterPostForm";
 
 // Fetch signals function
 const fetchSignals = async (): Promise<Signal[]> => {
@@ -271,7 +270,6 @@ const SignalsManagement: React.FC = () => {
               <Button className="w-full md:w-auto" onClick={addSignal}>
                 <PlusCircle className="w-4 h-4 mr-2" /> Add Signal
               </Button>
-              <TwitterPostForm />
             </div>
             <div className="overflow-x-auto">
               <Table>
