@@ -28,7 +28,7 @@ export async function POST(req: NextRequest) {
     }
 
     // If verification succeeds, move the data to the users table
-    const { first_name, last_name, email, password, phonenumber } =
+    const { firstname, lastname, email, password, phonenumber } =
       result.rows[0];
 
     // Check for potential issues during the move to the final `users` table
@@ -38,7 +38,7 @@ export async function POST(req: NextRequest) {
           INSERT INTO users (firstname, lastname, email, password, phonenumber)
           VALUES ($1, $2, $3, $4, $5)
         `,
-        [first_name, last_name, email, password, phonenumber]
+        [firstname, lastname, email, password, phonenumber]
       );
 
       // Delete the user from the pending_users table after successful insertion

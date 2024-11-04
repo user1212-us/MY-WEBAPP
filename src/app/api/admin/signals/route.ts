@@ -47,8 +47,11 @@ export async function POST(req: NextRequest) {
   if (session) {
     if (session.user) {
       if (session.user.email) {
-        if (session.user.email !== "rashed111222@yahoo.com")
+        const authorizedEmails =
+          process.env.AUTHORIZED_EMAILS?.split(",") || [];
+        if (!authorizedEmails.includes(session.user.email)) {
           return new NextResponse("Unauthorized", { status: 401 });
+        }
       } else {
         return new NextResponse("Unauthorized", { status: 401 });
       }
@@ -111,8 +114,11 @@ export async function PUT(req: NextRequest) {
   if (session) {
     if (session.user) {
       if (session.user.email) {
-        if (session.user.email !== "rashed111222@yahoo.com")
+        const authorizedEmails =
+          process.env.AUTHORIZED_EMAILS?.split(",") || [];
+        if (!authorizedEmails.includes(session.user.email)) {
           return new NextResponse("Unauthorized", { status: 401 });
+        }
       } else {
         return new NextResponse("Unauthorized", { status: 401 });
       }
@@ -166,8 +172,11 @@ export async function DELETE(req: NextRequest) {
   if (session) {
     if (session.user) {
       if (session.user.email) {
-        if (session.user.email !== "rashed111222@yahoo.com")
+        const authorizedEmails =
+          process.env.AUTHORIZED_EMAILS?.split(",") || [];
+        if (!authorizedEmails.includes(session.user.email)) {
           return new NextResponse("Unauthorized", { status: 401 });
+        }
       } else {
         return new NextResponse("Unauthorized", { status: 401 });
       }
@@ -217,7 +226,10 @@ export async function DELETE(req: NextRequest) {
 
 export async function GET() {
   const session = await getServerSession();
-  const isAdmin = session?.user?.email === "rashed111222@yahoo.com";
+  //const isAdmin = session?.user?.email === "rashed111222@yahoo.com";
+  const email = session?.user?.email;
+  const authorizedEmails = process.env.AUTHORIZED_EMAILS?.split(",") || [];
+  const isAdmin = authorizedEmails.includes(email || "");
 
   if (!session) {
     return new NextResponse("Unauthorized", { status: 401 });

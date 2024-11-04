@@ -30,7 +30,7 @@ export async function POST(req: NextRequest) {
     const verificationCode = uuidv4().slice(0, 6).toUpperCase();
 
     // Insert the new user into the database
-    const insertUserQuery = `INSERT INTO pendingusers (firstName, lastName, email, password, verification_code,phonenumber,created_at) VALUES ($1, $2, $3, $4, $5, $6,Now()) RETURNING *`;
+    const insertUserQuery = `INSERT INTO pendingusers (firstname, lastname, email, password, verification_code,phonenumber,created_at) VALUES ($1, $2, $3, $4, $5, $6,Now()) RETURNING *`;
     const newUser = await client.query(insertUserQuery, [
       firstName,
       lastName,

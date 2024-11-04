@@ -71,8 +71,11 @@ export async function POST(request: Request) {
   if (session) {
     if (session.user) {
       if (session.user.email) {
-        if (session.user.email !== "rashed111222@yahoo.com")
+        const authorizedEmails =
+          process.env.AUTHORIZED_EMAILS?.split(",") || [];
+        if (!authorizedEmails.includes(session.user.email)) {
           return new NextResponse("Unauthorized", { status: 401 });
+        }
       } else {
         return new NextResponse("Unauthorized", { status: 401 });
       }
