@@ -1,12 +1,13 @@
-import OAuth from "oauth-1.0a";
-import crypto from "crypto-js";
+//import OAuth from "oauth-1.0a";
+//import crypto from "crypto-js";
 import { NextResponse } from "next/server";
 import { NewsArticleTwitter, NewsArticleEnTwitter } from "@/types/news";
 import { translateText } from "@/lib/translate";
-import { createTweetTemplate } from "@/lib/tweetTemplate";
+//import { createTweetTemplate } from "@/lib/tweetTemplate";
 import { getServerSession } from "next-auth";
+import { createTelegramMessageTemplate } from "@/lib/telegramTemplate";
 
-// Twitter API credentials
+/* // Twitter API credentials
 const consumerKey = process.env.TWITTER_CONSUMER_KEY;
 const consumerSecret = process.env.TWITTER_CONSUMER_SECRET;
 const accessToken = process.env.TWITTER_ACCESS_TOKEN;
@@ -59,7 +60,7 @@ async function postTweet(text: string) {
   } catch (error) {
     return { success: false, error };
   }
-}
+} */
 
 // POST route handler
 export async function POST(request: Request) {
@@ -87,11 +88,23 @@ export async function POST(request: Request) {
     const count = body.count || 5; // Default to 5 if no count is provided
 
     const newsArticles = await fetchAndTranslateNews(count);
-    const results = [];
-    const failedNews = [];
+    // const results = [];
+    //  const failedNews = [];
 
     for (const item of newsArticles) {
-      const result = await postTweet(
+      const telegram = await postToTelegram(
+        createTelegramMessageTemplate(
+          item.symbol,
+          item.titleAr,
+          item.textAr,
+          item.sentiment
+        )
+      );
+      console.log(telegram);
+
+      //console.log(telegram);
+
+      /* const result = await postTweet(
         createTweetTemplate(
           item.symbol,
           item.titleAr,
@@ -112,14 +125,16 @@ export async function POST(request: Request) {
       }
     }
 
-    if (failedNews.length > 0) {
-      return NextResponse.json(
-        { error: "Some tweets failed to post", failedNews },
-        { status: 500 }
-      );
+    if (failedNews.length > 0) { */
     }
 
-    return NextResponse.json({ results }, { status: 200 });
+    return NextResponse.json(
+      { error: "Some tweets failed to post", newsArticles },
+      { status: 500 }
+    );
+    //   }
+
+    //  return NextResponse.json({ results }, { status: 200 });
   } catch (error) {
     console.error("Error in POST function:", error);
     return NextResponse.json(
@@ -164,4 +179,24 @@ async function fetchAndTranslateNews(
   );
 
   return translatedArticles;
+}
+
+async function postToTelegram(message: string) {
+  const botToken = process.env.TELEGRAM_BOT_TOKN;
+  const chatId = process.env.TELEGRAM_CHANNEL_ID; // Replace with your public channel username
+  const url = `https://api.telegram.org/bot${botToken}/sendMessage`;
+
+  const response = await fetch(url, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      chat_id: chatId,
+      text: message,
+      parse_mode: "Markdown", // Optional, for message formatting
+    }),
+  });
+
+  if (!response.ok) {
+    console.error("Failed to send message:", response.statusText);
+  }
 }

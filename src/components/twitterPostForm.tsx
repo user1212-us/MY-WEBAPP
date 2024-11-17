@@ -15,12 +15,12 @@ export default function TwitterPostForm() {
   const [status, setStatus] = useState<
     "idle" | "loading" | "success" | "error"
   >("idle");
-  const [failedNews, setFailedNews] = useState<NewsItem[]>([]);
+  const [newsArticles, setNewsArticles] = useState<NewsItem[]>([]);
   const [tweetCount, setTweetCount] = useState<number>(5);
 
   const twitterPost = async function () {
     setStatus("loading");
-    setFailedNews([]);
+    setNewsArticles([]);
 
     try {
       const res = await fetch("/api/admin/postTweet-2", {
@@ -37,8 +37,8 @@ export default function TwitterPostForm() {
         setStatus("success");
       } else {
         setStatus("error");
-        if (data.failedNews) {
-          setFailedNews(data.failedNews);
+        if (data.newsArticles) {
+          setNewsArticles(data.newsArticles);
         }
       }
     } catch (error) {
@@ -86,14 +86,14 @@ export default function TwitterPostForm() {
         )}
       </div>
 
-      {status === "error" && failedNews.length > 0 && (
+      {status === "error" && newsArticles.length > 0 && (
         <div className="mt-6">
           <h2 className="text-xl font-semibold mb-4 text-red-600">
             Failed to post these news items. You can copy and post them
             manually:
           </h2>
           <div className="space-y-4">
-            {failedNews.map((news, index) => (
+            {newsArticles.map((news, index) => (
               <div
                 key={index}
                 className="p-4 bg-gray-50 rounded-lg border border-gray-200"
