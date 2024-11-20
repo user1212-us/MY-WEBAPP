@@ -6,11 +6,11 @@ export const createTelegramMessageTemplate = (
   sentiment: string
 ) => {
   const hashtags = [
-    "الاسهم_السعودية",
+    "الاسهم\\_السعودية",
     "تاسي",
-    "تاسي_تداول",
-    "السوق_الامريكي",
-    "الاسهم_الامريكيه",
+    "تاسي\\_تداول",
+    "السوق\\_الامريكي",
+    "الاسهم\\_الامريكيه",
   ];
   const formattedHashtags = hashtags.map((tag) => `#${tag}`).join(" ");
 
